@@ -1,4 +1,4 @@
-package com.chess.pieces;
+package com.chess.board;
 
 public class Board {
 
