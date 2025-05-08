@@ -1,4 +1,4 @@
-package za.co.wethinkcode;
+package com.chess.pieces;
 
 public class Main {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package za.co.wethinkcode;
+package com.chess.pieces;
 
 public class Pawn extends Piece{
 
