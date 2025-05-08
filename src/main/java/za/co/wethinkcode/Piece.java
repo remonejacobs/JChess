@@ -2,9 +2,18 @@ package za.co.wethinkcode;
 
 public abstract class Piece {
 
-    private int value = 0;
+    private final String color;
 
-    public Piece() {}
+    public Piece(String color) {
+        this.color = color;
+    }
 
+    public int getValue() {
+        return 1;
+    }
+
+    public String getColor() {
+        return color;
+    }
 
 }
