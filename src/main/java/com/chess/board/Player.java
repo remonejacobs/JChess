@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Player {
 
-    private ArrayList<Piece> pieces;        // all the pieces the player has
+    private final ArrayList<Piece> pieces;        // all the pieces the player has
 
     public Player(ArrayList<Piece> pieces) {
         this.pieces = pieces;
