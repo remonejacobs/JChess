@@ -2,12 +2,17 @@ package com.chess.board;
 
 import com.chess.pieces.*;
 
+import java.util.ArrayList;
+
 public class Board {
 
     private final Object[][] board = new Object[8][8];
+    private ArrayList<Piece> white = new ArrayList<>();
+    private ArrayList<Piece> black = new ArrayList<>();
 
     public Board() {
         createBoard();
+        setHands();
     }
 
     private void createBoard() {
@@ -55,6 +60,30 @@ public class Board {
 
     public void setBoard(int col, int row, Piece piece) {
         board[col][row] = piece;
+    }
+
+    public void setHands() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                try {
+                    Piece piece = (Piece) board[i][j];
+                    if (piece.getColor().equals("white")) {
+                        white.add(piece);
+                    } else {
+                        black.add(piece);
+                    }
+                } catch (Exception ignored) {
+                }
+
+            }
+        }
+    }
+
+    public ArrayList<Piece> getHand(String color) {
+        if (color.equals("white")) {
+            return white;
+        }
+        return black;
     }
 
     public String converter(Piece piece) {
