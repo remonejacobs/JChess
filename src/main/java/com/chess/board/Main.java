@@ -5,14 +5,12 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         Board board = new Board();
         System.out.println(board.toString());
 
-        System.out.println("Choose your color: ");
-        Scanner scanner = new Scanner(System.in);
-        String color = scanner.nextLine();
-
-
+        Player player = new Player(board.getHand("white"));
+        System.out.println(player.boardValue());
 
     }
 }

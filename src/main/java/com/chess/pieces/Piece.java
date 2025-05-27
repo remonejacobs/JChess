@@ -1,5 +1,10 @@
 package com.chess.pieces;
 
+import com.chess.board.Board;
+
+import java.util.List;
+import java.util.Objects;
+
 public abstract class Piece {
 
     private final String color;     // piece color
@@ -42,4 +47,10 @@ public abstract class Piece {
     public Position getPosition() {
         return position;
     }
+
+    /**
+     * find the playable moves of the pieces
+     * @return - list of available moves
+     */
+    public abstract List<Position> moves(Object[][] board);
 }
