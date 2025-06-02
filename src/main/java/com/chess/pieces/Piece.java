@@ -10,9 +10,9 @@ public abstract class Piece {
     private final String color;     // piece color
     private Position position;         // piece position
 
-    public Piece(String color, int col, int row) {
+    public Piece(String color, int x, int y) {
         this.color = color;
-        this.position = new Position(row, col);
+        this.position = new Position(x, y);
     }
 
     /**

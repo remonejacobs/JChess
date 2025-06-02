@@ -24,19 +24,19 @@ public class Board {
             if (i == 7) {
                 color = "white";
             }
-            board[i][0] = new Rook(color, i, 0);
-            board[i][1] = new Knight(color, i, 1);
-            board[i][2] = new Bishop(color, i, 2);
-            board[i][7] = new Rook(color, i, 7);
-            board[i][6] = new Knight(color, i, 6);
-            board[i][5] = new Bishop(color, i, 5);
+            board[i][0] = new Rook(color, 0, i);
+            board[i][1] = new Knight(color, 1, i);
+            board[i][2] = new Bishop(color, 2, i);
+            board[i][7] = new Rook(color, 7, i);
+            board[i][6] = new Knight(color, 6, i);
+            board[i][5] = new Bishop(color, 5, i);
 
             if (i == 0) {
-                board[i][3] = new Queen(color, i, 3);
-                board[i][4] = new King(color, i, 4);
+                board[i][3] = new Queen(color, 3, i);
+                board[i][4] = new King(color, 4, i);
             } else {
-                board[i][4] = new Queen(color, i, 4);
-                board[i][3] = new King(color, i, 3);
+                board[i][4] = new Queen(color, 4, i);
+                board[i][3] = new King(color, 3, i);
             }
         }
 
@@ -47,7 +47,7 @@ public class Board {
                 color = "white";
             }
             for (int j = 0; j < 8; j++){
-                board[i][j] = new Pawn(color, i, j);
+                board[i][j] = new Pawn(color, j, i);
             }
         }
 

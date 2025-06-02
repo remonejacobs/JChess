@@ -30,6 +30,6 @@ public class Player {
      * @param row - row
      */
     private void removePiece(int col, int row) {
-        pieces.removeIf(piece -> piece.getPosition().getCol() == col && piece.getPosition().getRow() == row);
+        pieces.removeIf(piece -> piece.getPosition().getY() == col && piece.getPosition().getX() == row);
     }
 }
