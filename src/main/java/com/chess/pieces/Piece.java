@@ -2,6 +2,8 @@ package com.chess.pieces;
 
 import com.chess.board.Board;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -53,4 +55,32 @@ public abstract class Piece {
      * @return - list of available moves
      */
     public abstract List<Position> moves(Object[][] board);
+
+    /**
+     * Returns a range from one number to the next.
+     * @param a - start of range.
+     * @param b - end of range.
+     * @return ArrayList of all numbers in between.
+     */
+    protected static ArrayList<Integer> range(int a, int b) {
+        ArrayList<Integer> rangeList = new ArrayList<>();
+        boolean reverse = false;
+        int x = a;
+        int y = b;
+
+        if (a > b) {
+            x = b;
+            y = a;
+            reverse = true;
+        }
+        for (int i = x; i < y + 1; i++) {
+            rangeList.add(i);
+        }
+
+        if (reverse) {
+            Collections.reverse(rangeList);
+        }
+
+        return rangeList;
+    }
 }
