@@ -1,5 +1,6 @@
 package com.chess.pieces;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Bishop extends Piece{
@@ -15,6 +16,61 @@ public class Bishop extends Piece{
 
     @Override
     public List<Position> moves(Object[][] board) {
-        return List.of();
+        List<Position> allMoves = new ArrayList<>();
+
+        for (int i = 1; i < 8; i++) {
+            try {
+                if (board[getPosition().getY() + i][getPosition().getX() + i] != null) {
+                    Piece piece = (Piece) board[getPosition().getY() + i][getPosition().getX() + 1];
+
+                    if (!piece.getColor().equals(getColor())) {
+                        allMoves.add(piece.getPosition());
+                    }
+                } else {
+                    allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() + 1));
+                }
+            } catch (Exception ignored) {
+            }
+
+            try {
+                if (board[getPosition().getY() - i][getPosition().getX() - i] != null) {
+                    Piece piece = (Piece) board[getPosition().getY() - i][getPosition().getX() - 1];
+
+                    if (!piece.getColor().equals(getColor())) {
+                        allMoves.add(piece.getPosition());
+                    }
+                } else {
+                    allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() - 1));
+                }
+            } catch (Exception ignored) {
+            }
+
+            try {
+                if (board[getPosition().getY() + i][getPosition().getX() - i] != null) {
+                    Piece piece = (Piece) board[getPosition().getY() + i][getPosition().getX() - 1];
+
+                    if (!piece.getColor().equals(getColor())) {
+                        allMoves.add(piece.getPosition());
+                    }
+                } else {
+                    allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() + 1));
+                }
+            } catch (Exception ignored) {
+            }
+
+            try {
+                if (board[getPosition().getY() - i][getPosition().getX() + i] != null) {
+                    Piece piece = (Piece) board[getPosition().getY() - i][getPosition().getX() + 1];
+
+                    if (!piece.getColor().equals(getColor())) {
+                        allMoves.add(piece.getPosition());
+                    }
+                } else {
+                    allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() - 1));
+                }
+            } catch (Exception ignored) {
+            }
+        }
+        return allMoves;
     }
 }
