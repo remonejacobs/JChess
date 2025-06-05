@@ -40,7 +40,6 @@ public class Rook extends Piece{
                     } catch (Exception ignored) {
                     }
                 }
-                System.out.println(allMoves.size());
 
                 // handles all moves horizontal
                 for (int i = 1; i < 8 - getPosition().getX(); i++) {
