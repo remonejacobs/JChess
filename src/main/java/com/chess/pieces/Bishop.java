@@ -21,14 +21,14 @@ public class Bishop extends Piece{
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[getPosition().getY() + i][getPosition().getX() + i] != null) {
-                    Piece piece = (Piece) board[getPosition().getY() + i][getPosition().getX() + 1];
+                    Piece piece = (Piece) board[getPosition().getY() + i][getPosition().getX() + i];
 
                     if (!piece.getColor().equals(getColor())) {
                         allMoves.add(piece.getPosition());
                     }
                     break;
                 } else {
-                    allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() + 1));
+                    allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() + i));
                 }
             } catch (Exception ignored) {
             }
@@ -37,14 +37,14 @@ public class Bishop extends Piece{
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[getPosition().getY() - i][getPosition().getX() - i] != null) {
-                    Piece piece = (Piece) board[getPosition().getY() - i][getPosition().getX() - 1];
+                    Piece piece = (Piece) board[getPosition().getY() - i][getPosition().getX() - i];
 
                     if (!piece.getColor().equals(getColor())) {
                         allMoves.add(piece.getPosition());
                     }
                     break;
                 } else {
-                    allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() - 1));
+                    allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() - i));
                 }
             } catch (Exception ignored) {
             }
@@ -53,14 +53,14 @@ public class Bishop extends Piece{
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[getPosition().getY() + i][getPosition().getX() - i] != null) {
-                    Piece piece = (Piece) board[getPosition().getY() + i][getPosition().getX() - 1];
+                    Piece piece = (Piece) board[getPosition().getY() + i][getPosition().getX() - i];
 
                     if (!piece.getColor().equals(getColor())) {
                         allMoves.add(piece.getPosition());
                     }
                     break;
                 } else {
-                    allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() + 1));
+                    allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() + i));
                 }
             } catch (Exception ignored) {
             }
@@ -69,14 +69,14 @@ public class Bishop extends Piece{
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[getPosition().getY() - i][getPosition().getX() + i] != null) {
-                    Piece piece = (Piece) board[getPosition().getY() - i][getPosition().getX() + 1];
+                    Piece piece = (Piece) board[getPosition().getY() - i][getPosition().getX() + i];
 
                     if (!piece.getColor().equals(getColor())) {
                         allMoves.add(piece.getPosition());
                     }
                     break;
                 } else {
-                    allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() - 1));
+                    allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() - i));
                 }
             } catch (Exception ignored) {
             }
