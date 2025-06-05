@@ -54,7 +54,7 @@ public class Player {
             if (Character.isUpperCase(move.toCharArray()[0])) {
                 move = move.replace("x", "");
             } else {
-                move = String.valueOf(move.toCharArray()[0]) + move.toCharArray()[3];
+                move = String.valueOf(move.toCharArray()[2]) + move.toCharArray()[3];
                 System.out.println(move);
             }
 
