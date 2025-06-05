@@ -3,6 +3,7 @@ package com.chess.board;
 import com.chess.pieces.*;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
 
@@ -113,6 +114,17 @@ public class Board {
             return white;
         }
         return black;
+    }
+
+    public void botMove() {
+        for (Piece piece: black) {
+            List<Position> movable = piece.moves(board);
+            if (!movable.isEmpty()) {
+                setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
+                setBoard(movable.getFirst().getY(), movable.getFirst().getX(), piece);
+                break;
+            }
+        }
     }
 
     /**

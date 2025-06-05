@@ -44,6 +44,10 @@ public class Player {
         pieces.removeIf(piece -> piece.getPosition().getY() == col && piece.getPosition().getX() == row);
     }
 
+    /**
+     * play the move
+     * @param move - move to play
+     */
     public void validMove(String move) {
         switch (move.toCharArray()[0]) {
             case 'K':
@@ -100,8 +104,8 @@ public class Player {
                         }
                     }
                 }
-
         }
+        board.botMove();
     }
 
     /**
