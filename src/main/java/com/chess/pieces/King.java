@@ -18,8 +18,8 @@ public class King extends Piece{
     public List<Position> moves(Object[][] board) {
         List<Position> allMoves = new ArrayList<>();
 
+        // testing all possible king moves
         try {
-            // checking each diagonal
             if (board[getPosition().getY() + 1][getPosition().getX() + 1] != null) {
                 Piece piece = (Piece) board[getPosition().getY() + 1][getPosition().getX() + 1];
 
@@ -29,7 +29,9 @@ public class King extends Piece{
             } else {
                 allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() + 1));
             }
-
+        } catch (Exception ignored) {
+        }
+        try {
             if (board[getPosition().getY() - 1][getPosition().getX() - 1] != null) {
                 Piece piece = (Piece) board[getPosition().getY() - 1][getPosition().getX() - 1];
 
@@ -39,7 +41,9 @@ public class King extends Piece{
             } else {
                 allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() - 1));
             }
-
+        } catch (Exception ignored) {
+        }
+        try {
             if (board[getPosition().getY() + 1][getPosition().getX() - 1] != null) {
                 Piece piece = (Piece) board[getPosition().getY() + 1][getPosition().getX() - 1];
 
@@ -49,7 +53,9 @@ public class King extends Piece{
             } else {
                 allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() + 1));
             }
-
+        } catch (Exception ignored) {
+        }
+        try {
             if (board[getPosition().getY() - 1][getPosition().getX() + 1] != null) {
                 Piece piece = (Piece) board[getPosition().getY() - 1][getPosition().getX() + 1];
 
