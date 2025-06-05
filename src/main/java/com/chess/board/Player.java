@@ -124,11 +124,11 @@ public class Player {
             yVal = 8 - Integer.parseInt(String.valueOf(move.toCharArray()[1]));
         } else {
             xVal = ((int) move.toCharArray()[1] - 97);
-            System.out.println(xVal);
             yVal = 8 - Integer.parseInt(String.valueOf(move.toCharArray()[2]));
         }
 
         if (allMoves.stream().anyMatch(pos -> pos.getX() == xVal && pos.getY() == yVal)) {
+            System.out.println("jgfd");
             board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
             board.setBoard(yVal, xVal, piece);
             return true;

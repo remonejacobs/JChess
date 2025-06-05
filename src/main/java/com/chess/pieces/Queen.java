@@ -85,7 +85,7 @@ public class Queen extends Piece{
 
         // handles all moves vertical
         for (int a = 0; a < 2; a++) {
-            for (int i = 1; i < 8 - getPosition().getY(); i++) {
+            for (int i = 1; i < 8; i++) {
                 int add = i;
                 if (a > 0) {
                     add *= -1;
@@ -106,7 +106,7 @@ public class Queen extends Piece{
             }
 
             // handles all moves horizontal
-            for (int i = 1; i < 8 - getPosition().getX(); i++) {
+            for (int i = 1; i < 8; i++) {
                 int add = i;
                 if (a > 0) {
                     add *= -1;
