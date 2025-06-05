@@ -18,6 +18,7 @@ public class Bishop extends Piece{
     public List<Position> moves(Object[][] board) {
         List<Position> allMoves = new ArrayList<>();
 
+        // we run for loops to test everything diagonally
         for (int i = 1; i < 8; i++) {
             try {
                 if (board[getPosition().getY() + i][getPosition().getX() + i] != null) {
