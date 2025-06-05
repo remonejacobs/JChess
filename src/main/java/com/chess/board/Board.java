@@ -148,23 +148,26 @@ public class Board {
      * @return - board in string value
      */
     public String toString() {
-        String val = "";
+        StringBuilder val = new StringBuilder();
 
         for (int i = 0; i < 8; i++) {
+            val.append((8 - i)).append("| ");
             for (int j = 0; j < 8; j++) {
                 try {
                     if (((Piece) board[i][j]).getColor().equals("white")) {
-                        val += converter((Piece) board[i][j]).toUpperCase() + " ";
+                        val.append(converter((Piece) board[i][j]).toUpperCase()).append(" ");
                     } else {
-                        val += converter((Piece) board[i][j]) + " ";
+                        val.append(converter((Piece) board[i][j])).append(" ");
                     }
 
                 } catch (Exception e) {
-                    val += ". ";
+                    val.append(". ");
                 }
             }
-            val += "\n";
+            val.append("\n");
         }
-        return val;
+        val.append("   ---------------\n");
+        val.append("   a b c d e f g h");
+        return val.toString();
     }
 }
