@@ -55,6 +55,7 @@ public class Player {
                 move = move.replace("x", "");
             } else {
                 move = String.valueOf(move.toCharArray()[0]) + move.toCharArray()[3];
+                System.out.println(move);
             }
 
         }
@@ -125,8 +126,6 @@ public class Player {
      */
     private boolean replacePieces(Piece piece, String move) {
         List<Position> allMoves = piece.moves(board.getBoard());
-        System.out.println(allMoves.size());
-
         int xVal;
         int yVal;
         if (piece instanceof Pawn) {
@@ -138,6 +137,7 @@ public class Player {
         }
 
         if (allMoves.stream().anyMatch(pos -> pos.getX() == xVal && pos.getY() == yVal)) {
+            System.out.println("erthg465hh");
             board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
             // removing a piece and adding new one
             removePiece(piece.getPosition().getY(), piece.getPosition().getX(), piece);

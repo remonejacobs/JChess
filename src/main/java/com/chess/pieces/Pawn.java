@@ -28,9 +28,15 @@ public class Pawn extends Piece{
                 }
 
                 if (board[getPosition().getY() + 1][getPosition().getX() + 1] != null) {
-                    allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() + 1));
-                } else if (board[getPosition().getY() + 1][getPosition().getX() - 1] != null) {
-                    allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() + 1));
+                    Piece piece = (Piece) board[getPosition().getY() + 1][getPosition().getX() + 1];
+                    if (!piece.getColor().equals(getColor())) {
+                        allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() + 1));
+                    }
+                } if (board[getPosition().getY() + 1][getPosition().getX() - 1] != null) {
+                    Piece piece = (Piece) board[getPosition().getY() + 1][getPosition().getX() - 1];
+                    if (!piece.getColor().equals(getColor())) {
+                        allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() + 1));
+                    }
                 }
             } else {
                 for (int i = 1; i < 3; i++) {
@@ -46,9 +52,15 @@ public class Pawn extends Piece{
                 }
 
                 if (board[getPosition().getY() - 1][getPosition().getX() + 1] != null) {
-                    allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() - 1));
-                } else if (board[getPosition().getY() - 1][getPosition().getX() - 1] != null) {
-                    allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() - 1));
+                    Piece piece = (Piece) board[getPosition().getY() - 1][getPosition().getX() + 1];
+                    if (!piece.getColor().equals(getColor())) {
+                        allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() - 1));
+                    }
+                } if (board[getPosition().getY() - 1][getPosition().getX() - 1] != null) {
+                    Piece piece = (Piece) board[getPosition().getY() - 1][getPosition().getX() - 1];
+                    if (!piece.getColor().equals(getColor())) {
+                        allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() - 1));
+                    }
                 }
             }
         } catch (Exception ignore) {
