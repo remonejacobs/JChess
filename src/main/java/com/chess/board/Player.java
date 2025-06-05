@@ -123,11 +123,7 @@ public class Player {
         int yVal;
         if (piece instanceof Pawn) {
             xVal = (int) move.toCharArray()[0] - 97;
-//            System.out.println(move.toCharArray()[0]);
             yVal = 8 - Integer.parseInt(String.valueOf(move.toCharArray()[1]));
-//            System.out.print(xVal + ", ");
-//            System.out.print(yVal);
-//            System.out.println();
         } else {
             xVal = ((int) move.toCharArray()[1] - 97);
             yVal = 8 - Integer.parseInt(String.valueOf(move.toCharArray()[2]));
