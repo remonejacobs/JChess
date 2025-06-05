@@ -14,6 +14,8 @@ public class Main {
 
             System.out.println("Enter your move: ");
             String move = scanner.nextLine();
+
+            player.validMove(move);
         }
     }
 }
