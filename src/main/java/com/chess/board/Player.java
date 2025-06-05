@@ -50,6 +50,14 @@ public class Player {
      * @param move - move to play
      */
     public void validMove(String move) {
+        if (move.contains("x")) {
+            if (Character.isUpperCase(move.toCharArray()[0])) {
+                move = move.replace("x", "");
+            } else {
+                move = String.valueOf(move.toCharArray()[0]) + move.toCharArray()[3];
+            }
+
+        }
         switch (move.toCharArray()[0]) {
             case 'K':
                 for (Piece piece : pieces) {
