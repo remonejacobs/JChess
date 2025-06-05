@@ -6,10 +6,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Board board = new Board();
+        Player player = new Player("white");
+//        System.out.println("Playing as white.");
 
         while (true) {
-            System.out.println(board.toString());
+            System.out.println(player.getBoard().toString());
 
             System.out.println("Enter your move: ");
             String move = scanner.nextLine();

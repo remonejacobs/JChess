@@ -68,12 +68,19 @@ public class Board {
 
     /**
      * setter for the board
-     * @param col - column
-     * @param row - row
+     * @param y - column
+     * @param x - row
      * @param piece - piece to place there
      */
-    public void setBoard(int col, int row, Piece piece) {
-        board[col][row] = piece;
+    public void setBoard(int y, int x, Piece piece) {
+        if (board[y][x] != null) {
+            if (((Piece) board[y][x]).getColor().equals("white")) {
+                white.remove((Piece) board[y][x]);
+            } else {
+                black.remove((Piece) board[y][x]);
+            }
+        }
+        board[y][x] = piece;
     }
 
     /**
