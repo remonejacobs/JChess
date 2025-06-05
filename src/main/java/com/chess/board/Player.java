@@ -40,8 +40,9 @@ public class Player {
      * @param col - column
      * @param row - row
      */
-    private void removePiece(int col, int row) {
+    private void removePiece(int col, int row, Piece newPiece) {
         pieces.removeIf(piece -> piece.getPosition().getY() == col && piece.getPosition().getX() == row);
+        pieces.add(newPiece);
     }
 
     /**
@@ -116,20 +117,26 @@ public class Player {
      */
     private boolean replacePieces(Piece piece, String move) {
         List<Position> allMoves = piece.moves(board.getBoard());
+        System.out.println(allMoves.size());
 
         int xVal;
         int yVal;
         if (piece instanceof Pawn) {
             xVal = (int) move.toCharArray()[0] - 97;
+//            System.out.println(move.toCharArray()[0]);
             yVal = 8 - Integer.parseInt(String.valueOf(move.toCharArray()[1]));
+//            System.out.print(xVal + ", ");
+//            System.out.print(yVal);
+//            System.out.println();
         } else {
             xVal = ((int) move.toCharArray()[1] - 97);
             yVal = 8 - Integer.parseInt(String.valueOf(move.toCharArray()[2]));
         }
 
         if (allMoves.stream().anyMatch(pos -> pos.getX() == xVal && pos.getY() == yVal)) {
-            System.out.println("jgfd");
             board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
+            // removing a piece and adding new one
+            removePiece(piece.getPosition().getY(), piece.getPosition().getX(), piece);
             board.setBoard(yVal, xVal, piece);
             return true;
         }

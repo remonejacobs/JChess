@@ -18,6 +18,10 @@ public class Pawn extends Piece{
                 for (int i = 1; i < 3; i++) {
                     if (board[getPosition().getY() + i][getPosition().getX()] == null) {
                         allMoves.add(new Position(getPosition().getX(), getPosition().getY() + i));
+
+                        if (getPosition().getY() != 1) {
+                            break;
+                        }
                     } else {
                         break;
                     }
@@ -32,6 +36,10 @@ public class Pawn extends Piece{
                 for (int i = 1; i < 3; i++) {
                     if (board[getPosition().getY() - i][getPosition().getX()] == null) {
                         allMoves.add(new Position(getPosition().getX(), getPosition().getY() - i));
+
+                        if (getPosition().getY() != 6) {
+                            break;
+                        }
                     } else {
                         break;
                     }

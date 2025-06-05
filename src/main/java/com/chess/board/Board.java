@@ -81,6 +81,9 @@ public class Board {
                 black.remove((Piece) board[y][x]);
             }
         }
+        if (piece != null) {
+            piece.changePosition(y, x);
+        }
         board[y][x] = piece;
     }
 
