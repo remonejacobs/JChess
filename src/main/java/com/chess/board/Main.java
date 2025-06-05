@@ -7,10 +7,12 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Board board = new Board();
-        System.out.println(board.toString());
 
-        Player player = new Player(board.getHand("white"));
-        System.out.println(player.boardValue());
+        while (true) {
+            System.out.println(board.toString());
 
+            System.out.println("Enter your move: ");
+            String move = scanner.nextLine();
+        }
     }
 }

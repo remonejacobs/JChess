@@ -9,12 +9,16 @@ public class Board {
     private final Object[][] board = new Object[8][8];
     private ArrayList<Piece> white = new ArrayList<>();
     private ArrayList<Piece> black = new ArrayList<>();
+//    private Player player = new Player(board.getHand("white"));
 
     public Board() {
         createBoard();
         setHands();
     }
 
+    /**
+     * create the board
+     */
     private void createBoard() {
         String color = "black";
         int[] royal = {0, 7};
@@ -54,15 +58,28 @@ public class Board {
 
     }
 
+    /**
+     * getter for the board
+     * @return - board
+     */
     public Object[][] getBoard() {
         return board;
     }
 
+    /**
+     * setter for the board
+     * @param col - column
+     * @param row - row
+     * @param piece - piece to place there
+     */
     public void setBoard(int col, int row, Piece piece) {
         board[col][row] = piece;
     }
 
-    public void setHands() {
+    /**
+     * distribute the hands to keep track of overall piece value
+     */
+    private void setHands() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 try {
@@ -79,6 +96,11 @@ public class Board {
         }
     }
 
+    /**
+     * returns all the pieces a player has
+     * @param color - color of hand
+     * @return - all pieces
+     */
     public ArrayList<Piece> getHand(String color) {
         if (color.equals("white")) {
             return white;
@@ -86,7 +108,12 @@ public class Board {
         return black;
     }
 
-    public String converter(Piece piece) {
+    /**
+     * convert piece into fen string
+     * @param piece - piece to use
+     * @return - fen string value
+     */
+    private String converter(Piece piece) {
         return switch (piece) {
             case Rook rook -> "r";
             case Bishop bishop -> "b";
@@ -97,6 +124,10 @@ public class Board {
         };
     }
 
+    /**
+     * display the board
+     * @return - board in string value
+     */
     public String toString() {
         String val = "";
 

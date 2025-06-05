@@ -32,8 +32,7 @@ public class Knight extends Piece{
                 } else {
                     allMoves.add(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]));
                 }
-            } catch (Exception e) {
-                continue;
+            } catch (Exception ignored) {
             }
         }
 
