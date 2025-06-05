@@ -17,6 +17,7 @@ public class Knight extends Piece{
     @Override
     public List<Position> moves(Object[][] board) {
         List<Position> allMoves = new ArrayList<>();
+
          // will cover every move
         int[][] adds = {{2, 1}, {2, -1}, {-2, 1}, {-2, -1}, {-1, 2}, {1, 2}, {1, -2}, {-1, -2}};
 
@@ -36,6 +37,6 @@ public class Knight extends Piece{
             }
         }
 
-        return List.of();
+        return allMoves;
     }
 }
