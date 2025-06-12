@@ -67,6 +67,58 @@ public class King extends Piece{
             }
         } catch (Exception ignored) {
         }
+
+        try {
+            if (board[getPosition().getY()][getPosition().getX() + 1] != null) {
+                Piece piece = (Piece) board[getPosition().getY()][getPosition().getX() + 1];
+
+                if (!piece.getColor().equals(getColor())) {
+                    allMoves.add(piece.getPosition());
+                }
+            } else {
+                allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY()));
+            }
+        } catch (Exception ignored) {
+        }
+
+        try {
+            if (board[getPosition().getY()][getPosition().getX() - 1] != null) {
+                Piece piece = (Piece) board[getPosition().getY()][getPosition().getX() - 1];
+
+                if (!piece.getColor().equals(getColor())) {
+                    allMoves.add(piece.getPosition());
+                }
+            } else {
+                allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY()));
+            }
+        } catch (Exception ignored) {
+        }
+
+        try {
+            if (board[getPosition().getY() - 1][getPosition().getX()] != null) {
+                Piece piece = (Piece) board[getPosition().getY() - 1][getPosition().getX()];
+
+                if (!piece.getColor().equals(getColor())) {
+                    allMoves.add(piece.getPosition());
+                }
+            } else {
+                allMoves.add(new Position(getPosition().getX(), getPosition().getY() - 1));
+            }
+        } catch (Exception ignored) {
+        }
+
+        try {
+            if (board[getPosition().getY() + 1][getPosition().getX()] != null) {
+                Piece piece = (Piece) board[getPosition().getY() + 1][getPosition().getX()];
+
+                if (!piece.getColor().equals(getColor())) {
+                    allMoves.add(piece.getPosition());
+                }
+            } else {
+                allMoves.add(new Position(getPosition().getX(), getPosition().getY() + 1));
+            }
+        } catch (Exception ignored) {
+        }
         return allMoves;
     }
 }
