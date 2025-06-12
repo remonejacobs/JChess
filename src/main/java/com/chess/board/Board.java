@@ -119,6 +119,9 @@ public class Board {
         return black;
     }
 
+    /**
+     * the bot makes a move
+     */
     public void botMove() {
         for (Piece piece: black) {
             List<Position> movable = piece.moves(board);
@@ -128,6 +131,31 @@ public class Board {
                 break;
             }
         }
+    }
+
+    /**
+     * checks if in check
+     * @param tempBoard - temp board to use
+     * @return - either in check or not
+     */
+    public boolean incheck(Board tempBoard) {
+        King king = new King("white", 0, 0);
+
+        for (Piece piece: white) {
+            if (piece instanceof King) {
+                king = (King) piece;
+            }
+        }
+        for (Piece piece: black) {
+            List<Position> movable = piece.moves(board);
+
+            for (Position position: movable) {
+                if (position.equals(king.getPosition())) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
