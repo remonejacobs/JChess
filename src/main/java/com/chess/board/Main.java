@@ -13,7 +13,7 @@ public class Main {
             System.out.println(player.getBoard().toString());
 
             System.out.println("Enter your move: ");
-            String move = scanner.nextLine();
+            String move = scanner.nextLine().strip();
 
             player.validMove(move);
         }

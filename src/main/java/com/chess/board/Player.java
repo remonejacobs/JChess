@@ -50,6 +50,7 @@ public class Player {
      * @param move - move to play
      */
     public void validMove(String move) {
+        boolean valid = false;
         if (move.contains("x")) {
             if (Character.isUpperCase(move.toCharArray()[0])) {
                 move = move.replace("x", "");
@@ -64,6 +65,7 @@ public class Player {
                 for (Piece piece : pieces) {
                     if (piece instanceof King) {
                         if (replacePieces(piece, move)) {
+                            valid = true;
                             break;
                         }
 
@@ -74,6 +76,7 @@ public class Player {
                 for (Piece piece : pieces) {
                     if (piece instanceof Knight) {
                         if (replacePieces(piece, move)) {
+                            valid = true;
                             break;
                         }
                     }
@@ -83,6 +86,7 @@ public class Player {
                 for (Piece piece : pieces) {
                     if (piece instanceof Queen) {
                         if (replacePieces(piece, move)) {
+                            valid = true;
                             break;
                         }
                     }
@@ -92,6 +96,7 @@ public class Player {
                 for (Piece piece : pieces) {
                     if (piece instanceof Rook) {
                         if (replacePieces(piece, move)) {
+                            valid = true;
                             break;
                         }
                     }
@@ -101,6 +106,7 @@ public class Player {
                 for (Piece piece : pieces) {
                     if (piece instanceof Bishop) {
                         if (replacePieces(piece, move)) {
+                            valid = true;
                             break;
                         }
                     }
@@ -110,12 +116,17 @@ public class Player {
                 for (Piece piece : pieces) {
                     if (piece instanceof Pawn) {
                         if (replacePieces(piece, move)) {
+                            valid = true;
                             break;
                         }
                     }
                 }
         }
-        board.botMove();
+        if (valid) {
+            board.botMove();
+        } else {
+            System.out.println("Invalid move!");
+        }
     }
 
     /**
@@ -137,7 +148,6 @@ public class Player {
         }
 
         if (allMoves.stream().anyMatch(pos -> pos.getX() == xVal && pos.getY() == yVal)) {
-            System.out.println("erthg465hh");
             board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
             // removing a piece and adding new one
             removePiece(piece.getPosition().getY(), piece.getPosition().getX(), piece);
