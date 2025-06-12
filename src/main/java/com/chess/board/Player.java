@@ -150,9 +150,9 @@ public class Player {
         if (allMoves.stream().anyMatch(pos -> pos.getX() == xVal && pos.getY() == yVal)) {
 
             board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
-            if (board.incheck()) {
+            if (board.inCheck()) {
                 board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), piece);
-                throw new Exception("");
+                return false;
             }
             // removing a piece and adding new one
             removePiece(piece.getPosition().getY(), piece.getPosition().getX(), piece);

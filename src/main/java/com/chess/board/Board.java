@@ -74,7 +74,7 @@ public class Board {
      * @param piece - piece to place there
      */
     public void setBoard(int y, int x, Piece piece) {
-        if (board[y][x] != null) {
+        if (board[y][x] != null && piece != null) {
             if (((Piece) board[y][x]).getColor().equals("white")) {
                 white.remove((Piece) board[y][x]);
             } else {
@@ -137,7 +137,7 @@ public class Board {
      * checks if in check
      * @return - either in check or not
      */
-    public boolean incheck() {
+    public boolean inCheck() {
         King king = new King("white", 0, 0);
 
         for (Piece piece: white) {
@@ -150,6 +150,7 @@ public class Board {
 
             for (Position position: movable) {
                 if (position.equals(king.getPosition())) {
+                    System.out.println("check");
                     return true;
                 }
             }
