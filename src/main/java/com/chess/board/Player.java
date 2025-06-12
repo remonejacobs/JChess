@@ -125,7 +125,7 @@ public class Player {
         if (valid) {
             board.botMove();
         } else {
-            System.out.println("Invalid move!");
+            System.out.println("INVALID MOVE!");
         }
     }
 

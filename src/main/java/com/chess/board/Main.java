@@ -14,8 +14,12 @@ public class Main {
 
             System.out.println("Enter your move: ");
             String move = scanner.nextLine().strip();
+            try {
+                player.validMove(move);
+            } catch (Exception e) {
+                System.out.println("INVALID MOVE!");
+            }
 
-            player.validMove(move);
         }
     }
 }
