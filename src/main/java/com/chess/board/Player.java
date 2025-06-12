@@ -49,7 +49,7 @@ public class Player {
      * play the move
      * @param move - move to play
      */
-    public void validMove(String move) {
+    public void validMove(String move) throws Exception {
         boolean valid = false;
         if (move.contains("x")) {
             if (Character.isUpperCase(move.toCharArray()[0])) {
@@ -135,7 +135,7 @@ public class Player {
      * @param move - input
      * @return - whether move was possible
      */
-    private boolean replacePieces(Piece piece, String move) {
+    private boolean replacePieces(Piece piece, String move) throws Exception {
         List<Position> allMoves = piece.moves(board.getBoard());
         int xVal;
         int yVal;
@@ -148,7 +148,12 @@ public class Player {
         }
 
         if (allMoves.stream().anyMatch(pos -> pos.getX() == xVal && pos.getY() == yVal)) {
+
             board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
+            if (board.incheck()) {
+                board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), piece);
+                throw new Exception("");
+            }
             // removing a piece and adding new one
             removePiece(piece.getPosition().getY(), piece.getPosition().getX(), piece);
             board.setBoard(yVal, xVal, piece);

@@ -135,10 +135,9 @@ public class Board {
 
     /**
      * checks if in check
-     * @param tempBoard - temp board to use
      * @return - either in check or not
      */
-    public boolean incheck(Board tempBoard) {
+    public boolean incheck() {
         King king = new King("white", 0, 0);
 
         for (Piece piece: white) {
