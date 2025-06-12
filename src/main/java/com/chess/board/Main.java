@@ -14,6 +14,11 @@ public class Main {
 
             System.out.println("Enter your move: ");
             String move = scanner.nextLine().strip();
+
+            if (move.equalsIgnoreCase("resign")) {
+                System.out.println("YOU LOSE!");
+                System.exit(0);
+            }
             try {
                 player.validMove(move);
             } catch (Exception e) {
