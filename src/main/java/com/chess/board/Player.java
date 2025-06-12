@@ -149,14 +149,16 @@ public class Player {
 
         if (allMoves.stream().anyMatch(pos -> pos.getX() == xVal && pos.getY() == yVal)) {
 
+            Position previous = piece.getPosition();
             board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
+            board.setBoard(yVal, xVal, piece);
             if (board.inCheck()) {
-                board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), piece);
+                board.setBoard(yVal, xVal, null);
+                board.setBoard(previous.getY(), previous.getX(), piece);
                 return false;
             }
             // removing a piece and adding new one
             removePiece(piece.getPosition().getY(), piece.getPosition().getX(), piece);
-            board.setBoard(yVal, xVal, piece);
             return true;
         }
         return false;

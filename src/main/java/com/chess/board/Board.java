@@ -150,7 +150,7 @@ public class Board {
 
             for (Position position: movable) {
                 if (position.equals(king.getPosition())) {
-                    System.out.println("check");
+                    System.out.println("CHECK!");
                     return true;
                 }
             }
