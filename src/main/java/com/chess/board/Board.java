@@ -158,6 +158,35 @@ public class Board {
         return false;
     }
 
+    public boolean checkMateChecker(String color) {
+        if (color.equals("white")) {
+            return checkMate(white);
+        } else {
+            return checkMate(black);
+        }
+    }
+
+    private boolean checkMate(ArrayList<Piece> colorHand) {
+            for (Piece piece: colorHand) {
+                List<Position> allMoves = piece.moves(getBoard());
+
+                for (Position move: allMoves) {
+                    Position previous = piece.getPosition();
+                    setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
+                    setBoard(move.getY(), move.getX(), piece);
+                    if (inCheck()) {
+                        setBoard(move.getY(), move.getX(), null);
+                        setBoard(previous.getY(), previous.getX(), piece);
+                    } else {
+                        setBoard(move.getY(), move.getX(), null);
+                        setBoard(previous.getY(), previous.getX(), piece);
+                        return false;
+                    }
+                }
+        }
+        return true;
+    }
+
     /**
      * convert piece into fen string
      * @param piece - piece to use
