@@ -131,8 +131,8 @@ public class Board {
                     continue;
                 }
                 setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
-                setBoard(movable.getFirst().getY(), movable.getFirst().getX(), piece);
-                break;
+                setBoard(pos.getY(), pos.getX(), piece);
+                return;
             }
         }
     }
@@ -181,7 +181,6 @@ public class Board {
             }
 
             if (movable.stream().anyMatch(position -> position.equals(king.getPosition()))) {
-                System.out.println("YOU ARE IN CHECK!");
                 return true;
             }
         }
