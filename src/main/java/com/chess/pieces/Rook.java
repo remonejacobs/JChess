@@ -38,7 +38,9 @@ public class Rook extends Piece{
                         }
                         break;
                     } else {
-                        allMoves.add(new Position(getPosition().getX(), getPosition().getY() + add));
+                        if (!tempBoard.checking(new Position(getPosition().getX(), getPosition().getY() + add), getColor(), this)) {
+                            allMoves.add(new Position(getPosition().getX(), getPosition().getY() + add));
+                        }
                     }
                 } catch (Exception ignored) {
                 }
@@ -60,7 +62,9 @@ public class Rook extends Piece{
                         }
                         break;
                     } else {
-                        allMoves.add(new Position(getPosition().getX() + add, getPosition().getY()));
+                        if (!tempBoard.checking(new Position(getPosition().getX() + add, getPosition().getY()), getColor(), this)) {
+                            allMoves.add(new Position(getPosition().getX() + add, getPosition().getY()));
+                        }
                     }
                 } catch (Exception ignored) {
                 }
