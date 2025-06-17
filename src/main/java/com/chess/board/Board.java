@@ -124,7 +124,7 @@ public class Board {
      */
     public void botMove() {
         for (Piece piece: black) {
-            List<Position> movable = piece.moves(board);
+            List<Position> movable = piece.moves(this);
             if (!movable.isEmpty()) {
                 setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
                 setBoard(movable.getFirst().getY(), movable.getFirst().getX(), piece);
@@ -133,24 +133,46 @@ public class Board {
         }
     }
 
+    public boolean checking(Position position, String color, Piece piece) {
+        Position old = piece.getPosition();
+        setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
+        setBoard(position.getY(), position.getX(), piece);
+
+        boolean check = inCheck(color);
+
+        setBoard(position.getY(), position.getX(), null);
+        setBoard(old.getY(), old.getX(), piece);
+
+        return check;
+    }
+
     /**
      * checks if in check
      * @return - either in check or not
      */
-    public boolean inCheck() {
-        King king = new King("white", 0, 0);
+    public boolean inCheck(String color) {
+        List<Piece> is;
+        List<Piece> isNot;
+        if (color.equals("white")) {
+            is = white;
+            isNot = black;
+        } else {
+            is = black;
+            isNot = white;
+        }
 
-        for (Piece piece: white) {
+        King king = new King(color, 0, 0);
+
+        for (Piece piece: is) {
             if (piece instanceof King) {
                 king = (King) piece;
             }
         }
-        for (Piece piece: black) {
-            List<Position> movable = piece.moves(board);
+        for (Piece piece: isNot) {
+            List<Position> movable = piece.moves(this);
 
             for (Position position: movable) {
                 if (position.equals(king.getPosition())) {
-                    System.out.println("CHECK!");
                     return true;
                 }
             }
@@ -158,31 +180,29 @@ public class Board {
         return false;
     }
 
-    public boolean checkMateChecker(String color) {
+    public boolean checkMate(String color) {
+        List<Piece> hand;
         if (color.equals("white")) {
-            return checkMate(white);
+            hand = white;
         } else {
-            return checkMate(black);
+            hand = black;
         }
-    }
+        for (Piece piece: hand) {
+            List<Position> allMoves = piece.moves(this);
 
-    private boolean checkMate(ArrayList<Piece> colorHand) {
-            for (Piece piece: colorHand) {
-                List<Position> allMoves = piece.moves(getBoard());
-
-                for (Position move: allMoves) {
-                    Position previous = piece.getPosition();
-                    setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
-                    setBoard(move.getY(), move.getX(), piece);
-                    if (inCheck()) {
-                        setBoard(move.getY(), move.getX(), null);
-                        setBoard(previous.getY(), previous.getX(), piece);
-                    } else {
-                        setBoard(move.getY(), move.getX(), null);
-                        setBoard(previous.getY(), previous.getX(), piece);
-                        return false;
-                    }
+            for (Position move: allMoves) {
+                Position previous = piece.getPosition();
+                setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
+                setBoard(move.getY(), move.getX(), piece);
+                if (inCheck(color)) {
+                    setBoard(move.getY(), move.getX(), null);
+                    setBoard(previous.getY(), previous.getX(), piece);
+                } else {
+                    setBoard(move.getY(), move.getX(), null);
+                    setBoard(previous.getY(), previous.getX(), piece);
+                    return false;
                 }
+            }
         }
         return true;
     }

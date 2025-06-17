@@ -124,10 +124,10 @@ public class Player {
         }
         if (valid) {
             board.botMove();
-            if (board.checkMateChecker("white")) {
-                System.out.println("CHECKMATE! YOU LOST!");
-                System.out.println(board);
-            }
+//            if (board.checkMate("white")) {
+//                System.out.println("CHECKMATE! YOU LOST!");
+//                System.out.println(board);
+//            }
         } else {
             System.out.println("INVALID MOVE!");
         }
@@ -140,7 +140,7 @@ public class Player {
      * @return - whether move was possible
      */
     private boolean replacePieces(Piece piece, String move) throws Exception {
-        List<Position> allMoves = piece.moves(board.getBoard());
+        List<Position> allMoves = piece.moves(board);
         int xVal;
         int yVal;
         if (piece instanceof Pawn) {
@@ -153,20 +153,14 @@ public class Player {
 
         if (allMoves.stream().anyMatch(pos -> pos.getX() == xVal && pos.getY() == yVal)) {
 
-            Position previous = piece.getPosition();
             board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
             board.setBoard(yVal, xVal, piece);
-            if (board.inCheck()) {
-                board.setBoard(yVal, xVal, null);
-                board.setBoard(previous.getY(), previous.getX(), piece);
-                return false;
-            }
             // removing a piece and adding new one
             removePiece(piece.getPosition().getY(), piece.getPosition().getX(), piece);
-            if (board.checkMateChecker("black")) {
-                System.out.println("CHECKMATE! YOU WON!!");
-                System.out.println(board);
-            }
+//            if (board.checkMate("black")) {
+//                System.out.println("CHECKMATE! YOU WON!!");
+//                System.out.println(board);
+//            }
             return true;
         }
         return false;

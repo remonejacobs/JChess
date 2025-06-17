@@ -1,5 +1,7 @@
 package com.chess.pieces;
 
+import com.chess.board.Board;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,109 +17,30 @@ public class King extends Piece{
     }
 
     @Override
-    public List<Position> moves(Object[][] board) {
+    public List<Position> moves(Board tempBoard) {
+        Object[][] board = tempBoard.getBoard();
         List<Position> allMoves = new ArrayList<>();
 
         // testing all possible king moves
-        try {
-            if (board[getPosition().getY() + 1][getPosition().getX() + 1] != null) {
-                Piece piece = (Piece) board[getPosition().getY() + 1][getPosition().getX() + 1];
+        // will cover every move
+        int[][] adds = {{1, 1}, {-1, -1}, {1, -1}, {-1, 1}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
-                if (!piece.getColor().equals(getColor())) {
-                    allMoves.add(piece.getPosition());
+        for (int[] row: adds) {
+            try {
+                if (board[getPosition().getY() + row[0]][getPosition().getX() + row[1]] != null) {
+                    Piece piece = (Piece) board[getPosition().getY() + row[0]][getPosition().getX() + row[1]];
+
+                    if (!piece.getColor().equals(getColor())
+                            && !tempBoard.checking(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]), getColor(), this)) {
+                        allMoves.add(piece.getPosition());
+                    }
+                } else {
+                    if (!tempBoard.checking(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]), getColor(), this)) {
+                        allMoves.add(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]));
+                    }
                 }
-            } else {
-                allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() + 1));
+            } catch (Exception ignored) {
             }
-        } catch (Exception ignored) {
-        }
-        try {
-            if (board[getPosition().getY() - 1][getPosition().getX() - 1] != null) {
-                Piece piece = (Piece) board[getPosition().getY() - 1][getPosition().getX() - 1];
-
-                if (!piece.getColor().equals(getColor())) {
-                    allMoves.add(piece.getPosition());
-                }
-            } else {
-                allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() - 1));
-            }
-        } catch (Exception ignored) {
-        }
-        try {
-            if (board[getPosition().getY() + 1][getPosition().getX() - 1] != null) {
-                Piece piece = (Piece) board[getPosition().getY() + 1][getPosition().getX() - 1];
-
-                if (!piece.getColor().equals(getColor())) {
-                    allMoves.add(piece.getPosition());
-                }
-            } else {
-                allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() + 1));
-            }
-        } catch (Exception ignored) {
-        }
-        try {
-            if (board[getPosition().getY() - 1][getPosition().getX() + 1] != null) {
-                Piece piece = (Piece) board[getPosition().getY() - 1][getPosition().getX() + 1];
-
-                if (!piece.getColor().equals(getColor())) {
-                    allMoves.add(piece.getPosition());
-                }
-            } else {
-                allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() - 1));
-            }
-        } catch (Exception ignored) {
-        }
-
-        try {
-            if (board[getPosition().getY()][getPosition().getX() + 1] != null) {
-                Piece piece = (Piece) board[getPosition().getY()][getPosition().getX() + 1];
-
-                if (!piece.getColor().equals(getColor())) {
-                    allMoves.add(piece.getPosition());
-                }
-            } else {
-                allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY()));
-            }
-        } catch (Exception ignored) {
-        }
-
-        try {
-            if (board[getPosition().getY()][getPosition().getX() - 1] != null) {
-                Piece piece = (Piece) board[getPosition().getY()][getPosition().getX() - 1];
-
-                if (!piece.getColor().equals(getColor())) {
-                    allMoves.add(piece.getPosition());
-                }
-            } else {
-                allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY()));
-            }
-        } catch (Exception ignored) {
-        }
-
-        try {
-            if (board[getPosition().getY() - 1][getPosition().getX()] != null) {
-                Piece piece = (Piece) board[getPosition().getY() - 1][getPosition().getX()];
-
-                if (!piece.getColor().equals(getColor())) {
-                    allMoves.add(piece.getPosition());
-                }
-            } else {
-                allMoves.add(new Position(getPosition().getX(), getPosition().getY() - 1));
-            }
-        } catch (Exception ignored) {
-        }
-
-        try {
-            if (board[getPosition().getY() + 1][getPosition().getX()] != null) {
-                Piece piece = (Piece) board[getPosition().getY() + 1][getPosition().getX()];
-
-                if (!piece.getColor().equals(getColor())) {
-                    allMoves.add(piece.getPosition());
-                }
-            } else {
-                allMoves.add(new Position(getPosition().getX(), getPosition().getY() + 1));
-            }
-        } catch (Exception ignored) {
         }
         return allMoves;
     }

@@ -1,5 +1,7 @@
 package com.chess.pieces;
 
+import com.chess.board.Board;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,8 @@ public class Knight extends Piece{
     }
 
     @Override
-    public List<Position> moves(Object[][] board) {
+    public List<Position> moves(Board tempBoard) {
+        Object[][] board = tempBoard.getBoard();
         List<Position> allMoves = new ArrayList<>();
 
          // will cover every move
@@ -26,11 +29,13 @@ public class Knight extends Piece{
                 if (board[getPosition().getY() + row[0]][getPosition().getX() + row[1]] != null) {
                     Piece piece = ((Piece) board[getPosition().getY() + row[0]][getPosition().getX() + row[1]]);
 
-                    if (!piece.getColor().equals(getColor())) {
+                    if (!piece.getColor().equals(getColor()) && !tempBoard.checking(new Position(row[1], row[0]), getColor(), this)) {
                         allMoves.add(piece.getPosition());
                     }
                 } else {
-                    allMoves.add(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]));
+                    if (!tempBoard.checking(new Position(row[1], row[0]), getColor(), this)) {
+                        allMoves.add(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]));
+                    }
                 }
             } catch (Exception ignored) {
             }

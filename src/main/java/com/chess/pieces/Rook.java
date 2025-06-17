@@ -1,5 +1,7 @@
 package com.chess.pieces;
 
+import com.chess.board.Board;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +17,8 @@ public class Rook extends Piece{
     }
 
     @Override
-    public List<Position> moves(Object[][] board) {
+    public List<Position> moves(Board tempBoard) {
+        Object[][] board = tempBoard.getBoard();
         List<Position> allMoves = new ArrayList<>();
 
         // handles all moves vertical
@@ -29,7 +32,8 @@ public class Rook extends Piece{
                 try {
                     if (board[getPosition().getY() + add][getPosition().getX()] != null) {
                         Piece piece = (Piece) board[getPosition().getY() + add][getPosition().getX()];
-                        if (!piece.getColor().equals(getColor())) {
+                        if (!piece.getColor().equals(getColor())
+                                && !tempBoard.checking(new Position(getPosition().getX(), getPosition().getY() + add), getColor(), this)) {
                             allMoves.add(piece.getPosition());
                         }
                         break;
@@ -50,7 +54,8 @@ public class Rook extends Piece{
 
                     if (board[getPosition().getY()][getPosition().getX() + add] != null) {
                         Piece piece = (Piece) board[getPosition().getY()][getPosition().getX() + add];
-                        if (!piece.getColor().equals(getColor())) {
+                        if (!piece.getColor().equals(getColor())
+                                && !tempBoard.checking(new Position(getPosition().getX() + add, getPosition().getY()), getColor(), this)) {
                             allMoves.add(piece.getPosition());
                         }
                         break;
