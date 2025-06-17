@@ -27,15 +27,12 @@ public class Bishop extends Piece{
                 if (board[getPosition().getY() + i][getPosition().getX() + i] != null) {
                     Piece piece = (Piece) board[getPosition().getY() + i][getPosition().getX() + i];
 
-                    if (!piece.getColor().equals(getColor())
-                            && !tempBoard.checking(new Position(getPosition().getX() + i, getPosition().getY() + i), getColor(), this)) {
+                    if (!piece.getColor().equals(getColor())) {
                         allMoves.add(piece.getPosition());
                     }
                     break;
                 } else {
-                    if (!tempBoard.checking(new Position(getPosition().getX() + i, getPosition().getY() + i), getColor(), this)) {
-                        allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() + i));
-                    }
+                    allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() + i));
                 }
             } catch (Exception ignored) {
             }
@@ -46,15 +43,12 @@ public class Bishop extends Piece{
                 if (board[getPosition().getY() - i][getPosition().getX() - i] != null) {
                     Piece piece = (Piece) board[getPosition().getY() - i][getPosition().getX() - i];
 
-                    if (!piece.getColor().equals(getColor())
-                            && !tempBoard.checking(new Position(getPosition().getX() - i, getPosition().getY() - i), getColor(), this)) {
+                    if (!piece.getColor().equals(getColor())) {
                         allMoves.add(piece.getPosition());
                     }
                     break;
                 } else {
-                    if (!tempBoard.checking(new Position(getPosition().getX() - i, getPosition().getY() - i), getColor(), this)) {
-                        allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() - i));
-                    }
+                    allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() - i));
                 }
             } catch (Exception ignored) {
             }
@@ -65,15 +59,12 @@ public class Bishop extends Piece{
                 if (board[getPosition().getY() + i][getPosition().getX() - i] != null) {
                     Piece piece = (Piece) board[getPosition().getY() + i][getPosition().getX() - i];
 
-                    if (!piece.getColor().equals(getColor())
-                            && !tempBoard.checking(new Position(getPosition().getX() - i, getPosition().getY() + i), getColor(), this)) {
+                    if (!piece.getColor().equals(getColor())) {
                         allMoves.add(piece.getPosition());
                     }
                     break;
                 } else {
-                    if (!tempBoard.checking(new Position(getPosition().getX() - i, getPosition().getY() + i), getColor(), this)) {
-                        allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() + i));
-                    }
+                    allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() + i));
                 }
             } catch (Exception ignored) {
             }
@@ -84,15 +75,12 @@ public class Bishop extends Piece{
                 if (board[getPosition().getY() - i][getPosition().getX() + i] != null) {
                     Piece piece = (Piece) board[getPosition().getY() - i][getPosition().getX() + i];
 
-                    if (!piece.getColor().equals(getColor())
-                            && !tempBoard.checking(new Position(getPosition().getX() + i, getPosition().getY() - i), getColor(), this)) {
+                    if (!piece.getColor().equals(getColor())) {
                         allMoves.add(piece.getPosition());
                     }
                     break;
                 } else {
-                    if (!tempBoard.checking(new Position(getPosition().getX() + i, getPosition().getY() - i), getColor(), this)) {
-                        allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() - i));
-                    }
+                    allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() - i));
                 }
             } catch (Exception ignored) {
             }

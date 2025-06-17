@@ -125,7 +125,11 @@ public class Board {
     public void botMove() {
         for (Piece piece: black) {
             List<Position> movable = piece.moves(this);
-            if (!movable.isEmpty()) {
+
+            for (Position pos: movable) {
+                if (checking(pos, piece)) {
+                    continue;
+                }
                 setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
                 setBoard(movable.getFirst().getY(), movable.getFirst().getX(), piece);
                 break;
@@ -133,12 +137,18 @@ public class Board {
         }
     }
 
-    public boolean checking(Position position, String color, Piece piece) {
+    /**
+     * check if after the move is played you are in check
+     * @param position - position to move to
+     * @param piece - piece to move
+     * @return - either in check or not
+     */
+    public boolean checking(Position position, Piece piece) {
         Position old = piece.getPosition();
         setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
         setBoard(position.getY(), position.getX(), piece);
 
-        boolean check = inCheck(color);
+        boolean check = inCheck(piece.getColor());
 
         setBoard(position.getY(), position.getX(), null);
         setBoard(old.getY(), old.getX(), piece);
@@ -150,7 +160,7 @@ public class Board {
      * checks if in check
      * @return - either in check or not
      */
-    public boolean inCheck(String color) {
+    private boolean inCheck(String color) {
         List<Piece> is;
         List<Piece> isNot;
         if (color.equals("white")) {
@@ -161,20 +171,18 @@ public class Board {
             isNot = white;
         }
 
-        King king = new King(color, 0, 0);
+        King king = is.stream().filter(piece -> piece instanceof King).findFirst().map(piece -> (King) piece).orElse(new King(color, 0, 0));
 
-        for (Piece piece: is) {
-            if (piece instanceof King) {
-                king = (King) piece;
-            }
-        }
         for (Piece piece: isNot) {
             List<Position> movable = piece.moves(this);
 
-            for (Position position: movable) {
-                if (position.equals(king.getPosition())) {
-                    return true;
-                }
+            if (movable.isEmpty()) {
+                continue;
+            }
+
+            if (movable.stream().anyMatch(position -> position.equals(king.getPosition()))) {
+                System.out.println("YOU ARE IN CHECK!");
+                return true;
             }
         }
         return false;
@@ -191,15 +199,7 @@ public class Board {
             List<Position> allMoves = piece.moves(this);
 
             for (Position move: allMoves) {
-                Position previous = piece.getPosition();
-                setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
-                setBoard(move.getY(), move.getX(), piece);
-                if (inCheck(color)) {
-                    setBoard(move.getY(), move.getX(), null);
-                    setBoard(previous.getY(), previous.getX(), piece);
-                } else {
-                    setBoard(move.getY(), move.getX(), null);
-                    setBoard(previous.getY(), previous.getX(), piece);
+                if (!checking(move, piece)) {
                     return false;
                 }
             }

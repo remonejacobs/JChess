@@ -30,14 +30,11 @@ public class King extends Piece{
                 if (board[getPosition().getY() + row[0]][getPosition().getX() + row[1]] != null) {
                     Piece piece = (Piece) board[getPosition().getY() + row[0]][getPosition().getX() + row[1]];
 
-                    if (!piece.getColor().equals(getColor())
-                            && !tempBoard.checking(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]), getColor(), this)) {
+                    if (!piece.getColor().equals(getColor())) {
                         allMoves.add(piece.getPosition());
                     }
                 } else {
-                    if (!tempBoard.checking(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]), getColor(), this)) {
-                        allMoves.add(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]));
-                    }
+                    allMoves.add(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]));
                 }
             } catch (Exception ignored) {
             }
