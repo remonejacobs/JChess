@@ -1,7 +1,6 @@
 package com.chess.board;
 
 import com.chess.pieces.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Player {

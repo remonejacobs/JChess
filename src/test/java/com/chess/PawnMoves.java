@@ -17,7 +17,7 @@ public class PawnMoves {
     public void testPawnMoves() {
         Board board = new Board();
 
-        List<Position> moves = ((Piece) board.getBoard()[1][2]).moves(board.getBoard());
+        List<Position> moves = (board.getBoard()[1][2]).moves(board);
 
         assertTrue(moves.getFirst().equals(new Position(2, 2)));
         assertTrue(moves.getLast().equals(new Position(2, 3)));
