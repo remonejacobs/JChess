@@ -35,13 +35,8 @@ public class Board {
             board[i][6] = new Knight(color, 6, i);
             board[i][5] = new Bishop(color, 5, i);
 
-            if (i == 0) {
-                board[i][3] = new Queen(color, 3, i);
-                board[i][4] = new King(color, 4, i);
-            } else {
-                board[i][4] = new Queen(color, 4, i);
-                board[i][3] = new King(color, 3, i);
-            }
+            board[i][3] = new Queen(color, 3, i);
+            board[i][4] = new King(color, 4, i);
         }
 
         for (int i : pawns) {
