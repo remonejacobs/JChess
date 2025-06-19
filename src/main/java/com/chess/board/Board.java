@@ -3,18 +3,17 @@ package com.chess.board;
 import com.chess.pieces.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Board {
 
     private final Piece[][] board = new Piece[8][8];
-    private ArrayList<Piece> white = new ArrayList<>();
-    private ArrayList<Piece> black = new ArrayList<>();
 //    private Player player = new Player(board.getHand("white"));
 
     public Board() {
         createBoard();
-        setHands();
+//        setHands();
     }
 
     /**
@@ -74,13 +73,6 @@ public class Board {
      * @param piece - piece to place there
      */
     public void setBoard(int y, int x, Piece piece) {
-        if (board[y][x] != null && piece != null) {
-            if ((board[y][x]).getColor().equals("white")) {
-                white.remove(board[y][x]);
-            } else {
-                black.remove(board[y][x]);
-            }
-        }
         if (piece != null) {
             piece.changePosition(y, x);
         }
@@ -90,53 +82,63 @@ public class Board {
     /**
      * distribute the hands to keep track of overall piece value
      */
-    private void setHands() {
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                try {
-                    Piece piece = board[i][j];
-                    if (piece.getColor().equals("white")) {
-                        white.add(piece);
-                    } else {
-                        black.add(piece);
-                    }
-                } catch (Exception ignored) {
-                }
-
-            }
-        }
-    }
+//    private void setHands() {
+//        for (int i = 0; i < 8; i++) {
+//            for (int j = 0; j < 8; j++) {
+//                try {
+//                    Piece piece = board[i][j];
+//                    if (piece.getColor().equals("white")) {
+//                        white.add(piece);
+//                    } else {
+//                        black.add(piece);
+//                    }
+//                } catch (Exception ignored) {
+//                }
+//
+//            }
+//        }
+//    }
 
     /**
      * returns all the pieces a player has
      * @param color - color of hand
      * @return - all pieces
      */
-    public ArrayList<Piece> getHand(String color) {
-        if (color.equals("white")) {
-            return white;
+    public List<Piece> getHand(String color) {
+        List<Piece> hand = new ArrayList<>();
+
+        for (Piece[] row: board) {
+            for (Piece piece: row) {
+                if (piece != null && piece.getColor().equals(color)) {
+                    hand.add(piece);
+                }
+            }
         }
-        return black;
+
+        return hand;
     }
 
     /**
      * the bot makes a move
      */
     public void botMove() {
-        for (Piece piece: black) {
-            List<Position> movable = piece.moves(this);
 
-            for (Position pos: movable) {
-                if (checking(pos, piece)) {
-                    continue;
-                } else {
-                    System.out.println(piece);
-                    setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
-                    setBoard(pos.getY(), pos.getX(), piece);
+        for (Piece[] row: board) {
+            for (Piece piece: row) {
+                if (piece != null && piece.getColor().equals("black")) {
+                    List<Position> movable = piece.moves(this);
+
+                    for (Position pos: movable) {
+                        if (!checking(pos, piece)) {
+                            setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
+                            setBoard(pos.getY(), pos.getX(), piece);
+                            return;
+                        }
+                    }
                 }
-                return;
             }
         }
+
     }
 
     /**
@@ -167,51 +169,43 @@ public class Board {
      * @return - either in check or not
      */
     private boolean inCheck(String color) {
-        List<Piece> is;
-        List<Piece> isNot;
-        if (color.equals("white")) {
-            is = white;
-            isNot = black;
-        } else {
-            is = black;
-            isNot = white;
-        }
 
-        King king = is.stream().filter(piece -> piece instanceof King).findFirst().map(piece -> (King) piece).orElse(new King(color, 0, 0));
+        King king = Arrays.stream(board).flatMap(Arrays::stream).filter(piece -> piece instanceof King && piece.getColor().equals(color))
+                .findFirst().map(piece -> (King) piece).orElse(new King(color, 0, 0));
 
-        for (Piece piece: isNot) {
-            List<Position> movable = piece.moves(this);
+        for (Piece[] row: board) {
+            for (Piece piece: row) {
+                if (piece != null && !piece.getColor().equals(color)) {
+                    List<Position> movable = piece.moves(this);
 
-            if (movable.isEmpty()) {
-                continue;
-            }
-
-            if (movable.stream().anyMatch(position -> position.equals(king.getPosition()))) {
-                return true;
+                    if (movable.stream().anyMatch(position -> position.equals(king.getPosition()))) {
+                        return true;
+                    }
+                }
             }
         }
         return false;
     }
 
-    public boolean checkMate(String color) {
-        List<Piece> hand;
-        if (color.equals("white")) {
-            hand = white;
-        } else {
-            hand = black;
-        }
-//        System.out.println(hand.size());
-        for (Piece piece: hand) {
-            List<Position> allMoves = piece.moves(this);
-
-            for (Position move: allMoves) {
-                if (!checking(move, piece)) {
-                    return false;
-                }
-            }
-        }
-        return inCheck(color);
-    }
+//    public boolean checkMate(String color) {
+//        List<Piece> hand;
+//        if (color.equals("white")) {
+//            hand = white;
+//        } else {
+//            hand = black;
+//        }
+////        System.out.println(hand.size());
+//        for (Piece piece: hand) {
+//            List<Position> allMoves = piece.moves(this);
+//
+//            for (Position move: allMoves) {
+//                if (!checking(move, piece)) {
+//                    return false;
+//                }
+//            }
+//        }
+//        return inCheck(color);
+//    }
 
     /**
      * convert piece into fen string
