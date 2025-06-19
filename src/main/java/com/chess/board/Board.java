@@ -9,11 +9,9 @@ import java.util.List;
 public class Board {
 
     private final Piece[][] board = new Piece[8][8];
-//    private Player player = new Player(board.getHand("white"));
 
     public Board() {
         createBoard();
-//        setHands();
     }
 
     /**
@@ -73,26 +71,6 @@ public class Board {
         }
         board[y][x] = piece;
     }
-
-    /**
-     * distribute the hands to keep track of overall piece value
-     */
-//    private void setHands() {
-//        for (int i = 0; i < 8; i++) {
-//            for (int j = 0; j < 8; j++) {
-//                try {
-//                    Piece piece = board[i][j];
-//                    if (piece.getColor().equals("white")) {
-//                        white.add(piece);
-//                    } else {
-//                        black.add(piece);
-//                    }
-//                } catch (Exception ignored) {
-//                }
-//
-//            }
-//        }
-//    }
 
     /**
      * returns all the pieces a player has
@@ -182,14 +160,12 @@ public class Board {
         return false;
     }
 
+    /**
+     * checks whether it is checkmate
+     * @param color - color
+     * @return - mate or not
+     */
     public boolean checkMate(String color) {
-//        List<Piece> hand;
-//        if (color.equals("white")) {
-//            hand = white;
-//        } else {
-//            hand = black;
-//        }
-//        System.out.println(hand.size());
 
         for (Piece[] row: board) {
             for (Piece piece: row) {
