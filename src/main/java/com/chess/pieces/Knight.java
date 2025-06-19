@@ -28,8 +28,9 @@ public class Knight extends Piece{
             try {
                 if (board[getPosition().getY() + row[0]][getPosition().getX() + row[1]] != null) {
                     Piece piece = ((Piece) board[getPosition().getY() + row[0]][getPosition().getX() + row[1]]);
-
-                    allMoves.add(piece.getPosition());
+                    if (!piece.getColor().equals(getColor())) {
+                        allMoves.add(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]));
+                    }
                 } else {
                     allMoves.add(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]));
                 }

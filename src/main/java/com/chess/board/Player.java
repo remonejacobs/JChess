@@ -58,7 +58,6 @@ public class Player {
                 move = String.valueOf(move.toCharArray()[2]) + move.toCharArray()[3];
                 System.out.println(move);
             }
-
         }
         switch (move.toCharArray()[0]) {
             case 'K':
@@ -159,7 +158,7 @@ public class Player {
             board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
             board.setBoard(yVal, xVal, piece);
             // removing a piece and adding new one
-            removePiece(piece.getPosition().getY(), piece.getPosition().getX(), piece);
+//            removePiece(piece.getPosition().getY(), piece.getPosition().getX(), piece);
             if (board.checkMate("black")) {
                 System.out.println("CHECKMATE! YOU WON!!");
                 System.out.println(board);

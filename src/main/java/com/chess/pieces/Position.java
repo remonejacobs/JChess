@@ -21,4 +21,8 @@ public class Position {
     public boolean equals(Position position) {
         return position.getX() == x && position.getY() == y;
     }
+
+    public String posToString() {
+        return String.format("x: %d, y: %d", x, y);
+    }
 }

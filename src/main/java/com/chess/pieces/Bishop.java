@@ -35,6 +35,7 @@ public class Bishop extends Piece{
                     allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() + i));
                 }
             } catch (Exception ignored) {
+                break;
             }
         }
 
@@ -51,6 +52,7 @@ public class Bishop extends Piece{
                     allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() - i));
                 }
             } catch (Exception ignored) {
+                break;
             }
         }
 
@@ -67,6 +69,7 @@ public class Bishop extends Piece{
                     allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() + i));
                 }
             } catch (Exception ignored) {
+                break;
             }
         }
 
@@ -83,6 +86,7 @@ public class Bishop extends Piece{
                     allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() - i));
                 }
             } catch (Exception ignored) {
+                break;
             }
         }
         return allMoves;

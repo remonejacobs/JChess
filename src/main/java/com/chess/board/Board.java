@@ -129,9 +129,11 @@ public class Board {
             for (Position pos: movable) {
                 if (checking(pos, piece)) {
                     continue;
+                } else {
+                    System.out.println(piece);
+                    setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
+                    setBoard(pos.getY(), pos.getX(), piece);
                 }
-                setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
-                setBoard(pos.getY(), pos.getX(), piece);
                 return;
             }
         }
@@ -144,14 +146,18 @@ public class Board {
      * @return - either in check or not
      */
     public boolean checking(Position position, Piece piece) {
+        Piece pieceToPut = null;
+        if (board[position.getY()][position.getX()] != null) {
+            pieceToPut = (Piece) board[position.getY()][position.getX()];
+        }
         Position old = piece.getPosition();
-        setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
         setBoard(position.getY(), position.getX(), piece);
+        setBoard(old.getY(), old.getX(), null);
 
         boolean check = inCheck(piece.getColor());
 
-        setBoard(position.getY(), position.getX(), null);
         setBoard(old.getY(), old.getX(), piece);
+        setBoard(position.getY(), position.getX(), pieceToPut);
 
         return check;
     }
@@ -194,6 +200,7 @@ public class Board {
         } else {
             hand = black;
         }
+//        System.out.println(hand.size());
         for (Piece piece: hand) {
             List<Position> allMoves = piece.moves(this);
 
@@ -203,7 +210,7 @@ public class Board {
                 }
             }
         }
-        return true;
+        return inCheck(color);
     }
 
     /**

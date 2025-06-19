@@ -31,7 +31,7 @@ public class King extends Piece{
                     Piece piece = (Piece) board[getPosition().getY() + row[0]][getPosition().getX() + row[1]];
 
                     if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
+                        allMoves.add(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]));
                     }
                 } else {
                     allMoves.add(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]));
