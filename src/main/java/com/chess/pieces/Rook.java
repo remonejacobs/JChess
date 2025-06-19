@@ -33,7 +33,7 @@ public class Rook extends Piece{
                     if (board[getPosition().getY() + add][getPosition().getX()] != null) {
                         Piece piece = (Piece) board[getPosition().getY() + add][getPosition().getX()];
                         if (!piece.getColor().equals(getColor())) {
-                            allMoves.add(piece.getPosition());
+                            allMoves.add(new Position(getPosition().getX(), getPosition().getY() + add));
                         }
                         break;
                     } else {
@@ -54,7 +54,7 @@ public class Rook extends Piece{
                     if (board[getPosition().getY()][getPosition().getX() + add] != null) {
                         Piece piece = (Piece) board[getPosition().getY()][getPosition().getX() + add];
                         if (!piece.getColor().equals(getColor())) {
-                            allMoves.add(piece.getPosition());
+                            allMoves.add(new Position(getPosition().getX() + add, getPosition().getY()));
                         }
                         break;
                     } else {

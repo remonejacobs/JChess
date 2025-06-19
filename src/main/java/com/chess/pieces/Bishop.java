@@ -28,7 +28,7 @@ public class Bishop extends Piece{
                     Piece piece = (Piece) board[getPosition().getY() + i][getPosition().getX() + i];
 
                     if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
+                        allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() + i));
                     }
                     break;
                 } else {
@@ -45,7 +45,7 @@ public class Bishop extends Piece{
                     Piece piece = (Piece) board[getPosition().getY() - i][getPosition().getX() - i];
 
                     if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
+                        allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() - i));
                     }
                     break;
                 } else {
@@ -62,7 +62,7 @@ public class Bishop extends Piece{
                     Piece piece = (Piece) board[getPosition().getY() + i][getPosition().getX() - i];
 
                     if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
+                        allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() + i));
                     }
                     break;
                 } else {
@@ -79,7 +79,7 @@ public class Bishop extends Piece{
                     Piece piece = (Piece) board[getPosition().getY() - i][getPosition().getX() + i];
 
                     if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
+                        allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() - i));
                     }
                     break;
                 } else {

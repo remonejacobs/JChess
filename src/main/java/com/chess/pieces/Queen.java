@@ -28,7 +28,7 @@ public class Queen extends Piece{
                     Piece piece = (Piece) board[getPosition().getY() + i][getPosition().getX() + i];
 
                     if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
+                        allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() + i));
                     }
                     break;
                 } else {
@@ -45,7 +45,7 @@ public class Queen extends Piece{
                     Piece piece = (Piece) board[getPosition().getY() - i][getPosition().getX() - i];
 
                     if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
+                        allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() - i));
                     }
                     break;
                 } else {
@@ -62,7 +62,7 @@ public class Queen extends Piece{
                     Piece piece = (Piece) board[getPosition().getY() + i][getPosition().getX() - i];
 
                     if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
+                        allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() + i));
                     }
                     break;
                 } else {
@@ -79,7 +79,7 @@ public class Queen extends Piece{
                     Piece piece = (Piece) board[getPosition().getY() - i][getPosition().getX() + i];
 
                     if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
+                        allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() - i));
                     }
                     break;
                 } else {
@@ -102,7 +102,7 @@ public class Queen extends Piece{
                     if (board[getPosition().getY() + add][getPosition().getX()] != null) {
                         Piece piece = (Piece) board[getPosition().getY() + add][getPosition().getX()];
                         if (!piece.getColor().equals(getColor())) {
-                            allMoves.add(piece.getPosition());
+                            allMoves.add(new Position(getPosition().getX(), getPosition().getY() + add));
                         }
                         break;
                     } else {
@@ -123,7 +123,7 @@ public class Queen extends Piece{
                     if (board[getPosition().getY()][getPosition().getX() + add] != null) {
                         Piece piece = (Piece) board[getPosition().getY()][getPosition().getX() + add];
                         if (!piece.getColor().equals(getColor())) {
-                            allMoves.add(piece.getPosition());
+                            allMoves.add(new Position(getPosition().getX() + add, getPosition().getY()));
                         }
                         break;
                     } else {
