@@ -18,7 +18,7 @@ public class King extends Piece{
 
     @Override
     public List<Position> moves(Board tempBoard) {
-        Object[][] board = tempBoard.getBoard();
+        Piece[][] board = tempBoard.getBoard();
         List<Position> allMoves = new ArrayList<>();
 
         // testing all possible king moves
@@ -28,7 +28,7 @@ public class King extends Piece{
         for (int[] row: adds) {
             try {
                 if (board[getPosition().getY() + row[0]][getPosition().getX() + row[1]] != null) {
-                    Piece piece = (Piece) board[getPosition().getY() + row[0]][getPosition().getX() + row[1]];
+                    Piece piece = board[getPosition().getY() + row[0]][getPosition().getX() + row[1]];
 
                     if (!piece.getColor().equals(getColor())) {
                         allMoves.add(piece.getPosition());

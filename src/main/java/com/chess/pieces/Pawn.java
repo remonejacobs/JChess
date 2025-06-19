@@ -13,7 +13,7 @@ public class Pawn extends Piece{
 
     @Override
     public List<Position> moves(Board tempBoard) {
-        Object[][] board = tempBoard.getBoard();
+        Piece[][] board = tempBoard.getBoard();
         List<Position> allMoves = new ArrayList<>();
 
         try {
@@ -31,12 +31,12 @@ public class Pawn extends Piece{
                 }
 
                 if (board[getPosition().getY() + 1][getPosition().getX() + 1] != null) {
-                    Piece piece = (Piece) board[getPosition().getY() + 1][getPosition().getX() + 1];
+                    Piece piece = board[getPosition().getY() + 1][getPosition().getX() + 1];
                     if (!piece.getColor().equals(getColor())) {
                         allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() + 1));
                     }
                 } if (board[getPosition().getY() + 1][getPosition().getX() - 1] != null) {
-                    Piece piece = (Piece) board[getPosition().getY() + 1][getPosition().getX() - 1];
+                    Piece piece = board[getPosition().getY() + 1][getPosition().getX() - 1];
                     if (!piece.getColor().equals(getColor())) {
                         allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() + 1));
                     }
@@ -55,12 +55,12 @@ public class Pawn extends Piece{
                 }
 
                 if (board[getPosition().getY() - 1][getPosition().getX() + 1] != null) {
-                    Piece piece = (Piece) board[getPosition().getY() - 1][getPosition().getX() + 1];
+                    Piece piece = board[getPosition().getY() - 1][getPosition().getX() + 1];
                     if (!piece.getColor().equals(getColor())) {
                         allMoves.add(new Position(getPosition().getX() + 1, getPosition().getY() - 1));
                     }
                 } if (board[getPosition().getY() - 1][getPosition().getX() - 1] != null) {
-                    Piece piece = (Piece) board[getPosition().getY() - 1][getPosition().getX() - 1];
+                    Piece piece = board[getPosition().getY() - 1][getPosition().getX() - 1];
                     if (!piece.getColor().equals(getColor())) {
                         allMoves.add(new Position(getPosition().getX() - 1, getPosition().getY() - 1));
                     }

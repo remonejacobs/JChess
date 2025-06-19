@@ -18,7 +18,7 @@ public class Rook extends Piece{
 
     @Override
     public List<Position> moves(Board tempBoard) {
-        Object[][] board = tempBoard.getBoard();
+        Piece[][] board = tempBoard.getBoard();
         List<Position> allMoves = new ArrayList<>();
 
         // handles all moves vertical
@@ -31,7 +31,7 @@ public class Rook extends Piece{
 
                 try {
                     if (board[getPosition().getY() + add][getPosition().getX()] != null) {
-                        Piece piece = (Piece) board[getPosition().getY() + add][getPosition().getX()];
+                        Piece piece = board[getPosition().getY() + add][getPosition().getX()];
                         if (!piece.getColor().equals(getColor())) {
                             allMoves.add(piece.getPosition());
                         }
@@ -52,7 +52,7 @@ public class Rook extends Piece{
                 try {
 
                     if (board[getPosition().getY()][getPosition().getX() + add] != null) {
-                        Piece piece = (Piece) board[getPosition().getY()][getPosition().getX() + add];
+                        Piece piece = board[getPosition().getY()][getPosition().getX() + add];
                         if (!piece.getColor().equals(getColor())) {
                             allMoves.add(piece.getPosition());
                         }

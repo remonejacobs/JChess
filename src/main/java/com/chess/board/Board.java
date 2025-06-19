@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Board {
 
-    private final Object[][] board = new Object[8][8];
+    private final Piece[][] board = new Piece[8][8];
     private ArrayList<Piece> white = new ArrayList<>();
     private ArrayList<Piece> black = new ArrayList<>();
 //    private Player player = new Player(board.getHand("white"));
@@ -63,7 +63,7 @@ public class Board {
      * getter for the board
      * @return - board
      */
-    public Object[][] getBoard() {
+    public Piece[][] getBoard() {
         return board;
     }
 
@@ -75,10 +75,10 @@ public class Board {
      */
     public void setBoard(int y, int x, Piece piece) {
         if (board[y][x] != null && piece != null) {
-            if (((Piece) board[y][x]).getColor().equals("white")) {
-                white.remove((Piece) board[y][x]);
+            if ((board[y][x]).getColor().equals("white")) {
+                white.remove(board[y][x]);
             } else {
-                black.remove((Piece) board[y][x]);
+                black.remove(board[y][x]);
             }
         }
         if (piece != null) {
@@ -94,7 +94,7 @@ public class Board {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 try {
-                    Piece piece = (Piece) board[i][j];
+                    Piece piece = board[i][j];
                     if (piece.getColor().equals("white")) {
                         white.add(piece);
                     } else {
@@ -148,7 +148,7 @@ public class Board {
     public boolean checking(Position position, Piece piece) {
         Piece pieceToPut = null;
         if (board[position.getY()][position.getX()] != null) {
-            pieceToPut = (Piece) board[position.getY()][position.getX()];
+            pieceToPut = board[position.getY()][position.getX()];
         }
         Position old = piece.getPosition();
         setBoard(position.getY(), position.getX(), piece);
@@ -240,10 +240,10 @@ public class Board {
             val.append((8 - i)).append("| ");
             for (int j = 0; j < 8; j++) {
                 try {
-                    if (((Piece) board[i][j]).getColor().equals("white")) {
-                        val.append(converter((Piece) board[i][j]).toUpperCase()).append(" ");
+                    if ((board[i][j]).getColor().equals("white")) {
+                        val.append(converter(board[i][j]).toUpperCase()).append(" ");
                     } else {
-                        val.append(converter((Piece) board[i][j])).append(" ");
+                        val.append(converter(board[i][j])).append(" ");
                     }
 
                 } catch (Exception e) {
