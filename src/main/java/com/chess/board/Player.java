@@ -35,17 +35,6 @@ public class Player {
     }
 
     /**
-     * remove a piece from the player's pieces
-     *
-     * @param col - column
-     * @param row - row
-     */
-    private void removePiece(int col, int row, Piece newPiece) {
-        pieces.removeIf(piece -> piece.getPosition().getY() == col && piece.getPosition().getX() == row);
-        pieces.add(newPiece);
-    }
-
-    /**
      * play the move
      * @param move - move to play
      */
@@ -154,10 +143,10 @@ public class Player {
             if (board.checking(new Position(xVal, yVal), piece)) {
                 return false;
             }
+            // move piece accordingly
             board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
             board.setBoard(yVal, xVal, piece);
-            // removing a piece and adding new one
-//            removePiece(piece.getPosition().getY(), piece.getPosition().getX(), piece);
+
             if (board.checkMate("black")) {
                 System.out.println("CHECKMATE! YOU WON!!\n");
                 System.exit(0);
