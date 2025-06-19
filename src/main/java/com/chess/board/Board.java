@@ -187,25 +187,31 @@ public class Board {
         return false;
     }
 
-//    public boolean checkMate(String color) {
+    public boolean checkMate(String color) {
 //        List<Piece> hand;
 //        if (color.equals("white")) {
 //            hand = white;
 //        } else {
 //            hand = black;
 //        }
-////        System.out.println(hand.size());
-//        for (Piece piece: hand) {
-//            List<Position> allMoves = piece.moves(this);
-//
-//            for (Position move: allMoves) {
-//                if (!checking(move, piece)) {
-//                    return false;
-//                }
-//            }
-//        }
-//        return inCheck(color);
-//    }
+//        System.out.println(hand.size());
+
+        for (Piece[] row: board) {
+            for (Piece piece: row) {
+                if (piece != null && piece.getColor().equals(color)) {
+                    List<Position> allMoves = piece.moves(this);
+
+                    for (Position move: allMoves) {
+                        if (!checking(move, piece)) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        return inCheck(color);
+    }
 
     /**
      * convert piece into fen string

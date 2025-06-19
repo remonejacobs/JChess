@@ -123,10 +123,10 @@ public class Player {
         }
         if (valid) {
             board.botMove();
-//            if (board.checkMate("white")) {
-//                System.out.println("CHECKMATE! YOU LOST!");
-//                System.out.println(board);
-//            }
+            if (board.checkMate("white")) {
+                System.out.println("CHECKMATE! YOU LOST!");
+                System.out.println(board);
+            }
         } else {
             System.out.println("INVALID MOVE!");
         }
@@ -159,10 +159,10 @@ public class Player {
             board.setBoard(yVal, xVal, piece);
             // removing a piece and adding new one
 //            removePiece(piece.getPosition().getY(), piece.getPosition().getX(), piece);
-//            if (board.checkMate("black")) {
-//                System.out.println("CHECKMATE! YOU WON!!");
-//                System.out.println(board);
-//            }
+            if (board.checkMate("black")) {
+                System.out.println("CHECKMATE! YOU WON!!");
+                System.out.println(board);
+            }
             return true;
         }
         return false;
