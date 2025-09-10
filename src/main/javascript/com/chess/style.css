@@ -18,9 +18,19 @@
 }
 
 .dark {
-    background-color: #202545;
+    background-color: grey;
 }
 
 .square.highlight {
     background-color: rgba(255, 255, 0, 0.5); /* translucent yellow */
 }
+
+img, svg {
+    width: 70%;
+    height: 70%;
+    padding: 25% 15% 5% 15%;
+}
+
+/*.pawn path{*/
+/*    background-color: blue;*/
+/*}*/
