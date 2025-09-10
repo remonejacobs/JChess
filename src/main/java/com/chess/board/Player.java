@@ -116,6 +116,7 @@ public class Player {
             }
         } else {
             System.out.println("INVALID MOVE!");
+            throw new Exception("");
         }
     }
 

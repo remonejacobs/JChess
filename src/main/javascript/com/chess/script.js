@@ -36,9 +36,10 @@ window.addEventListener("load", () => {
             e.preventDefault();
             const data = e.dataTransfer.getData('text/plain');
             const dataset = JSON.parse(data);
-            const el = document.querySelector(`[data-square="${dataset.square}"]`);
+            executeMove(dataset.square, square.dataset.square);
+//            const el = document.querySelector(`[data-square="${dataset.square}"]`);
             // Moves the img piece into the dropped square
-            square.appendChild(el.querySelector('img'));
+//            square.appendChild(el.querySelector('img'));
         });
     });
 });
@@ -50,12 +51,12 @@ window.addEventListener("load", () => {
  * Also sets up click event for highlighting squares.
  */
 function loadBoard() {
-    for (let row = 1; row < 9; row++) {
-        for (let col = 1; col < 9; col++) {
+    for (let row = 8; row > 0; row--) {
+        for (let col = 8; col > 0; col--) {
             const square = document.createElement("div");
             square.classList.add("square");
             square.classList.add((row + col) % 2 === 0 ? "light" : "dark");
-            square.dataset.square = String.fromCharCode(96 + col) + row;
+            square.dataset.square = String.fromCharCode(105 - col) + row;
 
             square.addEventListener("click", () => {
                 clearHighlights();
@@ -86,14 +87,14 @@ function placePieces() {
     for (const square of squares) {
         const block = square.dataset.square;
 
-        if (block.includes("7")) {
-            square.innerHTML = '<img src="pieces/blue-pawn.png" draggable="true"/>';
-        } else if (block.includes("8")) {
-            placePiece("blue", square, block);
+        if (block.includes("2")) {
+            square.innerHTML = '<img src="pieces/blue-pawn.png" class="pawn" draggable="true"/>';
         } else if (block.includes("1")) {
+            placePiece("blue", square, block);
+        } else if (block.includes("8")) {
             placePiece("black", square, block);
-        } else if (block.includes("2")) {
-            square.innerHTML = '<img src="pieces/black-pawn.png" draggable="true" />';
+        } else if (block.includes("7")) {
+            square.innerHTML = '<img src="pieces/black-pawn.png" class="pawn" draggable="true" />';
         }
     }
 }
@@ -106,14 +107,63 @@ function placePieces() {
  */
 function placePiece(color, square, block) {
     if (block.includes("a") || block.includes("h")) {
-        square.innerHTML = `<img src="pieces/${color}-rook.png" draggable="true" />`;
+        square.innerHTML = `<img src="pieces/${color}-rook.png" class="rook" draggable="true" />`;
     } else if (block.includes("b") || block.includes("g")) {
-        square.innerHTML = `<img src="pieces/${color}-knight.png" draggable="true" />`;
+        square.innerHTML = `<img src="pieces/${color}-knight.png" class="knight" draggable="true" />`;
     } else if (block.includes("c") || block.includes("f")) {
-        square.innerHTML = `<img src="pieces/${color}-bishop.png" draggable="true" />`;
+        square.innerHTML = `<img src="pieces/${color}-bishop.png" class="bishop" draggable="true" />`;
     } else if (block.includes("d")) {
-        square.innerHTML = `<img src="pieces/${color}-queen.png" draggable="true" />`;
+        square.innerHTML = `<img src="pieces/${color}-queen.png" class="queen" draggable="true" />`;
     } else if (block.includes("e")) {
-        square.innerHTML = `<img src="pieces/${color}-king.png" draggable="true" />`;
+        square.innerHTML = `<img src="pieces/${color}-king.png" class="king" draggable="true" />`;
     }
+}
+
+function executeMove(from, to) {
+    const url = 'http://localhost:7000/move';
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({move: createMove(from, to)})
+    };
+
+    fetch(url, options)
+        .then(response => response.json())
+        .then(data => {
+            console.log(data.move);
+            if (data.move == "valid") {
+                const fromSquare = document.querySelector(`[data-square="${from}"]`);
+                const toSquare = document.querySelector(`[data-square="${to}"]`);
+                const piece = fromSquare.querySelector('img');
+                if (piece) {
+                    toSquare.appendChild(piece);
+                    fromSquare.innerHTML = '';
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error executing move:', error);
+        });
+}
+
+function createMove(from, to) {
+    const fromSquare = document.querySelector(`[data-square="${from}"]`);
+    const classes = fromSquare.querySelector('img').classList;
+
+    if (classes.contains('pawn')) {
+        return `${to}`;
+    } else if (classes.contains('rook')) {
+        return `R${to}`;
+    } else if (classes.contains('knight')) {
+        return `N${to}`;
+    } else if (classes.contains('bishop')) {
+        return `B${to}`;
+    } else if (classes.contains('queen')) {
+        return `Q${to}`;
+    } else if (classes.contains('king')) {
+        return `K${to}`;
+    }
+    return '';
 }
