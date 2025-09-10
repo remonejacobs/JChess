@@ -46,19 +46,9 @@ public class MainServer {
 
             JSONObject json = new JSONObject(move);
             move = json.getString("move");
-            try {
-                System.out.println(move);
-                player.validMove(move);
-                ctx.json(new JSONObject().put("move", "valid").toString());
-            } catch (Exception e) {
-                ctx.status(400).json(new JSONObject().put("move", "Invalid").toString());
-
-                return;
-            }
-//            System.out.println("Received move: " + move);
-//            // Here you would process the move and update the game state
-//            ctx.result("Move received: " + move);
+            JSONObject moveSet = player.validMove(move);
+            System.out.println(moveSet);
+            ctx.json(moveSet.toMap());
         });
     }
-
 }

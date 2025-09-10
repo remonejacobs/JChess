@@ -94,7 +94,7 @@ function placePieces() {
         } else if (block.includes("8")) {
             placePiece("black", square, block);
         } else if (block.includes("7")) {
-            square.innerHTML = '<img src="pieces/black-pawn.png" class="pawn" draggable="true" />';
+            square.innerHTML = '<img src="pieces/black-pawn.png" class="pawn" draggable="false"/>';
         }
     }
 }
@@ -106,16 +106,21 @@ function placePieces() {
  * @param {string} block - The square's identifier (e.g., 'a1', 'e8').
  */
 function placePiece(color, square, block) {
+    draggable = false;
+    if (color === "blue") {
+        draggable = true;
+    }
+
     if (block.includes("a") || block.includes("h")) {
-        square.innerHTML = `<img src="pieces/${color}-rook.png" class="rook" draggable="true" />`;
+        square.innerHTML = `<img src="pieces/${color}-rook.png" class="rook" draggable="${draggable}" />`;
     } else if (block.includes("b") || block.includes("g")) {
-        square.innerHTML = `<img src="pieces/${color}-knight.png" class="knight" draggable="true" />`;
+        square.innerHTML = `<img src="pieces/${color}-knight.png" class="knight" draggable="${draggable}" />`;
     } else if (block.includes("c") || block.includes("f")) {
-        square.innerHTML = `<img src="pieces/${color}-bishop.png" class="bishop" draggable="true" />`;
+        square.innerHTML = `<img src="pieces/${color}-bishop.png" class="bishop" draggable="${draggable}" />`;
     } else if (block.includes("d")) {
-        square.innerHTML = `<img src="pieces/${color}-queen.png" class="queen" draggable="true" />`;
+        square.innerHTML = `<img src="pieces/${color}-queen.png" class="queen" draggable="${draggable}" />`;
     } else if (block.includes("e")) {
-        square.innerHTML = `<img src="pieces/${color}-king.png" class="king" draggable="true" />`;
+        square.innerHTML = `<img src="pieces/${color}-king.png" class="king" draggable="${draggable}" />`;
     }
 }
 
@@ -132,8 +137,8 @@ function executeMove(from, to) {
     fetch(url, options)
         .then(response => response.json())
         .then(data => {
-            console.log(data.move);
-            if (data.move == "valid") {
+            console.log(data);
+            if (data.move === "valid") {
                 const fromSquare = document.querySelector(`[data-square="${from}"]`);
                 const toSquare = document.querySelector(`[data-square="${to}"]`);
                 const piece = fromSquare.querySelector('img');

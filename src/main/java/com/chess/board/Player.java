@@ -1,6 +1,8 @@
 package com.chess.board;
 
 import com.chess.pieces.*;
+import org.json.JSONObject;
+
 import java.util.List;
 
 public class Player {
@@ -37,7 +39,7 @@ public class Player {
      * play the move
      * @param move - move to play
      */
-    public void validMove(String move) throws Exception {
+    public JSONObject validMove(String move) throws Exception {
         boolean valid = false;
         if (move.contains("x")) {
             if (Character.isUpperCase(move.toCharArray()[0])) {
@@ -111,12 +113,11 @@ public class Player {
         }
         if (valid) {
             board.botMove();
-            if (board.checkMate("white")) {
-                System.out.println("CHECKMATE! YOU LOST!\n");
-            }
+            boolean mate = board.checkMate("white");
+            return createResponse("valid", mate);
         } else {
             System.out.println("INVALID MOVE!");
-            throw new Exception("");
+            return createResponse("invalid", false);
         }
     }
 
@@ -154,5 +155,11 @@ public class Player {
             return true;
         }
         return false;
+    }
+
+    private JSONObject createResponse(String move, boolean checkmate) {
+        return new JSONObject()
+                .put("move", move)
+                .put("checkmate", checkmate);
     }
 }
