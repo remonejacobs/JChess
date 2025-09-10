@@ -105,8 +105,9 @@ public class Board {
                     for (Position pos: movable) {
                         if (!checking(pos, piece)) {
                             JSONObject move = new JSONObject();
-                            move.put("from", String.valueOf(converter(piece).toUpperCase() + (char) (piece.getPosition().getX() + 97)) + (8 - piece.getPosition().getY()));
-                            move.put("to", String.valueOf((char) (pos.getX() + 97)) + (8 - pos.getY()));
+                            move.put("fromBot", String.valueOf((char) (piece.getPosition().getX() + 97)) + (8 - piece.getPosition().getY()));
+                            move.put("toBot", String.valueOf((char) (pos.getX() + 97)) + (8 - pos.getY()));
+                            move.put("piece", converter(piece).toUpperCase());
                             setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
                             setBoard(pos.getY(), pos.getX(), piece);
                             return move;
