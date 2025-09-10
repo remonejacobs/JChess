@@ -3,28 +3,33 @@ const board = document.getElementById("board");
 window.addEventListener("load", () => {
     loadBoard();
     placePieces();
+
+    const pieces = document.querySelectorAll('img');
+
+    pieces.forEach(piece => {
+        piece.addEventListener("dragstart", e => {
+            e.dataTransfer.setData('text/plain', JSON.stringify(e.target.parentElement.dataset)); // Store the element's parent's dataset
+        });
+    });
+
+    const squares = document.querySelectorAll('.square');
+
+    squares.forEach(square => {
+
+        square.addEventListener("dragover", e => {
+            e.preventDefault();
+        });
+
+        square.addEventListener("drop", e => {
+            e.preventDefault();
+            const data = e.dataTransfer.getData('text/plain');
+            const dataset = JSON.parse(data);
+            const el = document.querySelector(`[data-square="${dataset.square}"]`);
+            square.appendChild(el.querySelector('img')); // moves the img piece into the dropped square
+        });
+    });
 });
 
-//const pieces = document.querySelectorAll('img');
-//
-//pieces.forEach(piece => {
-//    piece.addEventListener("dragstart", e => {
-//        e.dataTransfer.setData('text/plain', e.target.id); // Store the element's ID
-//    });
-//});
-//
-//const squares = document.querySelectorAll('.square');
-//
-//squares.forEach(square => {
-//   square.addEventListener("dragover", e => {
-//       e.preventDefault();
-//   });
-//
-//    square.addEventListener("drop", e => {
-//        e.preventDefault();
-//        const data = e.dataTransfer.getData('text/plain');
-//    });
-//});
 
 function loadBoard() {
     for (let row = 1; row < 9; row++) {
