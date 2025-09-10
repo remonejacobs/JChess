@@ -1,6 +1,7 @@
 package com.chess.board;
 
 import com.chess.pieces.*;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -94,7 +95,7 @@ public class Board {
     /**
      * the bot makes a move
      */
-    public void botMove() {
+    public JSONObject botMove() {
 
         for (Piece[] row: board) {
             for (Piece piece: row) {
@@ -103,15 +104,19 @@ public class Board {
 
                     for (Position pos: movable) {
                         if (!checking(pos, piece)) {
+                            JSONObject move = new JSONObject();
+                            move.put("from", String.valueOf(converter(piece).toUpperCase() + (char) (piece.getPosition().getX() + 97)) + (8 - piece.getPosition().getY()));
+                            move.put("to", String.valueOf((char) (pos.getX() + 97)) + (8 - pos.getY()));
                             setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
                             setBoard(pos.getY(), pos.getX(), piece);
-                            return;
+                            return move;
                         }
                     }
                 }
             }
         }
 
+        return null;
     }
 
     /**

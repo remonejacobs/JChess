@@ -112,12 +112,12 @@ public class Player {
                 }
         }
         if (valid) {
-            board.botMove();
+            JSONObject botMoves = board.botMove();
             boolean mate = board.checkMate("white");
-            return createResponse("valid", mate);
+            return createResponse("valid", mate, botMoves);
         } else {
             System.out.println("INVALID MOVE!");
-            return createResponse("invalid", false);
+            return createResponse("invalid", false, new JSONObject());
         }
     }
 
@@ -157,9 +157,10 @@ public class Player {
         return false;
     }
 
-    private JSONObject createResponse(String move, boolean checkmate) {
+    private JSONObject createResponse(String move, boolean checkmate, JSONObject botMoves) {
         return new JSONObject()
                 .put("move", move)
-                .put("checkmate", checkmate);
+                .put("checkmate", checkmate)
+                .put("botMoves", botMoves);
     }
 }

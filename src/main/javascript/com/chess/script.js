@@ -37,9 +37,6 @@ window.addEventListener("load", () => {
             const data = e.dataTransfer.getData('text/plain');
             const dataset = JSON.parse(data);
             executeMove(dataset.square, square.dataset.square);
-//            const el = document.querySelector(`[data-square="${dataset.square}"]`);
-            // Moves the img piece into the dropped square
-//            square.appendChild(el.querySelector('img'));
         });
     });
 });
@@ -147,6 +144,9 @@ function executeMove(from, to) {
                     fromSquare.innerHTML = '';
                 }
             }
+
+            const botMoves = data.botMoves;
+            console.log(botMoves);
         })
         .catch(error => {
             console.error('Error executing move:', error);
