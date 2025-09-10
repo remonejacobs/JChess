@@ -1,10 +1,22 @@
-.container {
+.game {
     display: flex;
     justify-content: center;
-    align-content: center
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-width: 900px;
+    margin: 0 auto; /* center horizontally */
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 30px;
 }
 
 #board {
+    border-radius: 5px;
     display: grid;
     grid-template-rows: repeat(8, 100px);
     grid-template-columns: repeat(8, 100px);
@@ -25,12 +37,27 @@
     background-color: rgba(255, 255, 0, 0.5); /* translucent yellow */
 }
 
-img, svg {
+img{
     width: 70%;
     height: 70%;
     padding: 25% 15% 5% 15%;
 }
 
-/*.pawn path{*/
-/*    background-color: blue;*/
-/*}*/
+#bot-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 800px;
+    height: 80px;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+#bot-details img {
+    width: 100px;
+    height: 70px;
+    padding: 0;
+}
