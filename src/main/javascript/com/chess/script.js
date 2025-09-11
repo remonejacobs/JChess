@@ -18,10 +18,7 @@ window.addEventListener("load", () => {
 
     // Enable drag for each piece
     pieces.forEach(piece => {
-        piece.addEventListener("dragstart", e => {
-            // Store the element's parent's dataset for identifying the piece's location
-            e.dataTransfer.setData('text/plain', JSON.stringify(e.target.parentElement.dataset));
-        });
+        piece.addEventListener("dragstart", handleDragStart);
     });
 
     const squares = document.querySelectorAll('.square'); // Select all squares
@@ -29,19 +26,21 @@ window.addEventListener("load", () => {
     // Set up drag-and-drop for each square
     squares.forEach(square => {
         // Allow dropping by preventing default dragover behavior
-        square.addEventListener("dragover", e => {
-            e.preventDefault();
-        });
+        square.addEventListener("dragover", handleDragOver);
 
         // Handle drop event: send move to backend and update board if valid
-        square.addEventListener("drop", e => {
-            e.preventDefault();
-            const data = e.dataTransfer.getData('text/plain');
-            const dataset = JSON.parse(data);
-            executeMove(dataset.square, square.dataset.square);
-        });
+        square.addEventListener("drop", handleDrop);
     });
 });
+
+window.addEventListener("beforeunload", () => {
+    const url = 'http://localhost:7000/newGame';
+    const data = JSON.stringify({ action: "newGame" });
+
+//    The sendBeacon() API is specifically designed to send non-blocking small requests (e.g., to log analytics or notify a server before unload).
+    navigator.sendBeacon(url, data);
+});
+
 
 
 /**
@@ -177,6 +176,7 @@ function executeMove(from, to) {
                     checkmateMessage.innerHTML = '<h2>Checkmate! You Win!</h2>';
 
                     element.appendChild(checkmateMessage);
+                    endGame();
                 }
 
             } else if (data.checkmate === true) {
@@ -232,4 +232,35 @@ function createMove(from, to) {
         return `K${to}`;
     }
     return '';
+}
+
+function endGame() {
+    const squares = document.querySelectorAll('.square');
+    squares.forEach(square => {
+//        square.removeEventListener("click", () => {});
+        square.removeEventListener("dragover", handleDragOver);
+        square.removeEventListener("drop", handleDrop);
+    });
+
+    const pieces = document.querySelectorAll('img');
+    pieces.forEach(piece => {
+        piece.removeEventListener("dragstart", handleDragStart);
+    });
+}
+
+
+function handleDragStart(e) {
+    // Store the element's parent's dataset for identifying the piece's location
+    e.dataTransfer.setData('text/plain', JSON.stringify(e.target.parentElement.dataset));
+}
+
+function handleDragOver(e) {
+    e.preventDefault();
+}
+
+function handleDrop(e) {
+    e.preventDefault();
+    const data = e.dataTransfer.getData('text/plain');
+    const dataset = JSON.parse(data);
+    executeMove(dataset.square, e.currentTarget.dataset.square);
 }
