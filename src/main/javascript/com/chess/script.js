@@ -228,7 +228,7 @@ function createMove(from, to) {
         return `B${to}`;
     } else if (classes.contains('queen')) {
         return `Q${to}`;
-    } else if (classes.contains('king')) {
+    } else if (classes.contains('black-king') || classes.contains('blue-king')) {
         return `K${to}`;
     }
     return '';
