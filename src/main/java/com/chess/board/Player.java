@@ -9,6 +9,7 @@ public class Player {
 
     private final List<Piece> pieces;        // all the pieces the player has
     private Board board = new Board();
+    private boolean checkmate = false;
 
     public Player(String color) {
         this.pieces = board.getHand(color);
@@ -111,10 +112,15 @@ public class Player {
                     }
                 }
         }
+        JSONObject botMoves = new JSONObject();
         if (valid) {
-            JSONObject botMoves = board.botMove();
-            boolean mate = board.checkMate("white");
-            return createResponse("valid", mate, botMoves);
+            System.out.println(checkmate);
+            if (!checkmate) {
+                botMoves = board.botMove();
+                boolean mate = board.checkMate("white");
+            }
+            return createResponse("valid", checkmate, botMoves);
+
         } else {
             System.out.println("INVALID MOVE!");
             return createResponse("invalid", false, new JSONObject());
@@ -149,8 +155,9 @@ public class Player {
             board.setBoard(yVal, xVal, piece);
 
             if (board.checkMate("black")) {
+                checkmate = true;
                 System.out.println("CHECKMATE! YOU WON!!\n");
-                System.exit(0);
+//                System.exit(0);
             }
             return true;
         }

@@ -130,7 +130,7 @@ function placePiece(color, square, block) {
     } else if (block.includes("d")) {
         square.innerHTML = `<img src="pieces/${color}-queen.png" class="queen" draggable="${draggable}" />`;
     } else if (block.includes("e")) {
-        square.innerHTML = `<img src="pieces/${color}-king.png" class="king" draggable="${draggable}" />`;
+        square.innerHTML = `<img src="pieces/${color}-king.png" class="${color}-king" draggable="${draggable}" />`;
     }
 }
 
@@ -157,6 +157,7 @@ function executeMove(from, to) {
             console.log(data);
             // If move is valid, update board visually
             if (data.move === "valid") {
+
                 const fromSquare = document.querySelector(`[data-square="${from}"]`);
                 const toSquare = document.querySelector(`[data-square="${to}"]`);
                 const piece = fromSquare.querySelector('img');
@@ -165,6 +166,21 @@ function executeMove(from, to) {
                     toSquare.appendChild(piece);
                     fromSquare.innerHTML = '';
                 }
+
+                if (data.checkmate === true) {
+                    const element = document.querySelector('.game');
+                    const king = document.querySelector('.black-king');
+                    king.classList.add('in-checkmate');
+                    const checkmateMessage = document.createElement('div');
+
+                    checkmateMessage.classList.add('checkmate-message');
+                    checkmateMessage.innerHTML = '<h2>Checkmate! You Win!</h2>';
+
+                    element.appendChild(checkmateMessage);
+                }
+
+            } else if (data.checkmate === true) {
+
             }
 
             // Handle bot's move if present in response
