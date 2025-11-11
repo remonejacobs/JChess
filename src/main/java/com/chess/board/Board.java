@@ -71,7 +71,12 @@ public class Board {
     }
 
     public void makeMove(Move move) {
-        setBoard(move.getTo().getY(), move.getTo().getX(), move.getMovedPiece());
+        Position from = move.getFrom();
+        Position to = move.getTo();
+        Piece movedPiece = move.getMovedPiece();
+        movedPiece.changePosition(to.getY(), to.getX());
+        setBoard(from.getY(), from.getX(), null);
+        setBoard(to.getY(), to.getX(), movedPiece);
     }
 
     /**

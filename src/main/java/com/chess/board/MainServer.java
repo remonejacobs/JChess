@@ -29,8 +29,11 @@ public class MainServer {
             String move = ctx.body();
 
             JSONObject json = new JSONObject(move);
-            move = json.getString("move");
-            JSONObject moveSet = player.validMove(move);
+            String from = json.getString("from");
+            String to = json.getString("to");
+            JSONObject moveSet = player.validMove(from, to);
+            System.out.println(from);
+            System.out.println(to);
             System.out.println(moveSet);
             ctx.json(moveSet.toMap());
         });

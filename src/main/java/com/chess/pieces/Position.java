@@ -24,7 +24,7 @@ public class Position {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Position position = (Position) o;
-        return x == position.x && y == position.y;
+        return x == position.getX() && y == position.getY();
     }
 
     @Override

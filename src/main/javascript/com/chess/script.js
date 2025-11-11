@@ -147,7 +147,7 @@ function executeMove(from, to) {
             'Content-Type': 'application/json'
         },
         // Send move in algebraic notation
-        body: JSON.stringify({move: createMove(from, to)})
+        body: JSON.stringify({from: from, to, to})
     };
 
     fetch(url, options)
@@ -221,15 +221,15 @@ function createMove(from, to) {
     if (classes.contains('pawn')) {
         return `${to}`;
     } else if (classes.contains('rook')) {
-        return `R${to}`;
+        return `${to}`;
     } else if (classes.contains('knight')) {
-        return `N${to}`;
+        return `${to}`;
     } else if (classes.contains('bishop')) {
-        return `B${to}`;
+        return `${to}`;
     } else if (classes.contains('queen')) {
-        return `Q${to}`;
+        return `${to}`;
     } else if (classes.contains('black-king') || classes.contains('blue-king')) {
-        return `K${to}`;
+        return `${to}`;
     }
     return '';
 }

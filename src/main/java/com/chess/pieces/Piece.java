@@ -6,7 +6,6 @@ import com.chess.board.Move;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Piece {
 
@@ -122,7 +121,6 @@ public abstract class Piece {
                 }
             }
         }
-
         return allMoves;
     }
 
@@ -224,7 +222,10 @@ public abstract class Piece {
      * @return Position object with x (file) and y (rank)
      * @throws IllegalArgumentException if notation is invalid
      */
-    public Position notationToPosition(String notation) {
+    public static Position notationToPosition(String notation) {
+        if (Character.isUpperCase(notation.charAt(0))) {
+            notation = notation.substring(1);
+        }
         if (notation == null || notation.length() != 2) {
             throw new IllegalArgumentException("Invalid chess notation: " + notation);
         }
