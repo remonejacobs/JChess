@@ -131,7 +131,7 @@ public abstract class Piece {
     }
 
     /**
-     * Generates all valid sliding moves (used by King).
+     * Generates all valid sliding moves (used by King, Knight).
      * @param board The current board
      * @param directions An array of directions, e.g. { {1,1}, {-1,-1}, {1,-1}, {-1,1} }
      * @return A list of all possible moves in those directions
