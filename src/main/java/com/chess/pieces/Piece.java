@@ -160,4 +160,90 @@ public abstract class Piece {
 
         return allMoves;
     }
+
+    /**
+     * Checks if this piece matches the algebraic move notation
+     * For example:
+     *  - King: "Ke1"
+     *  - Knight: "Nf3"
+     *  - Pawn: "e4" (pawns usually omit the letter "P")
+     *
+     * @param notation the move string
+     * @return true if this piece could be the piece referred to by notation
+     */
+    public boolean matchesMoveNotation(String notation, Board board) {
+        // Remove capture marker
+        notation = notation.replace("x", "");
+
+        char pieceChar = getPieceChar(); // 'K', 'Q', 'R', 'B', 'N' for standard pieces, pawns return 0
+        int startIdx = 0;
+
+        // Determine if notation includes piece letter
+        if (Character.isUpperCase(notation.charAt(0)) && notation.charAt(0) != 'O') { // 'O' is castling
+            if (notation.charAt(0) != pieceChar) {
+                return false; // Not this piece type
+            }
+            startIdx = 1; // skip piece letter
+        } else if (pieceChar != 0) {
+            return false; // notation is for pawn, but this is not a pawn
+        }
+
+        // Next chars are target square
+        if (notation.length() - startIdx < 2) {
+            return false; // invalid square
+        }
+
+        char file = notation.charAt(startIdx);
+        char rank = notation.charAt(startIdx + 1);
+
+        int x = file - 'a';
+        int y = 8 - Character.getNumericValue(rank);
+
+        // Check if this piece can move to that square
+        return this.moves(board).stream()
+                .anyMatch(pos -> pos.getTo().getX() == x && pos.getTo().getY() == y);
+    }
+
+    /**
+     * Returns the standard piece letter for notation.
+     * Returns 0 for pawns.
+     */
+    protected char getPieceChar() {
+        if (this instanceof King) return 'K';
+        if (this instanceof Queen) return 'Q';
+        if (this instanceof Rook) return 'R';
+        if (this instanceof Bishop) return 'B';
+        if (this instanceof Knight) return 'N';
+        return 0; // pawn
+    }
+
+    /**
+     * Converts standard algebraic notation to a Position object.
+     *
+     * @param notation e.g., "e4", "a1", "h8"
+     * @return Position object with x (file) and y (rank)
+     * @throws IllegalArgumentException if notation is invalid
+     */
+    public Position notationToPosition(String notation) {
+        if (notation == null || notation.length() != 2) {
+            throw new IllegalArgumentException("Invalid chess notation: " + notation);
+        }
+
+        char fileChar = notation.charAt(0);
+        char rankChar = notation.charAt(1);
+
+        // Convert file 'a'-'h' to 0-7
+        int x = fileChar - 'a';
+        if (x < 0 || x > 7) {
+            throw new IllegalArgumentException("Invalid file in notation: " + notation);
+        }
+
+        // Convert rank '1'-'8' to 7-0 (board array index)
+        int y = 8 - Character.getNumericValue(rankChar);
+        if (y < 0 || y > 7) {
+            throw new IllegalArgumentException("Invalid rank in notation: " + notation);
+        }
+
+        return new Position(x, y);
+    }
 }
