@@ -1,5 +1,7 @@
 package com.chess.pieces;
 
+import java.util.Objects;
+
 public class Position {
 
     private final int x;
@@ -18,11 +20,19 @@ public class Position {
         return y;
     }
 
-    public boolean equals(Position position) {
-        return position.getX() == x && position.getY() == y;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Position position = (Position) o;
+        return x == position.x && y == position.y;
     }
 
-    public String posToString() {
-        return String.format("x: %d, y: %d", x, y);
+    @Override
+    public int hashCode() {
+        return Objects.hash(x, y);
+    }
+
+    public String toString() {
+        return String.format("[x: %d, y: %d]", x, y);
     }
 }
