@@ -10,6 +10,7 @@ import java.util.List;
 public class Board {
 
     private final Piece[][] board = new Piece[8][8];
+    private String turn = "white";
 
     public Board() {
         createBoard();
@@ -48,8 +49,13 @@ public class Board {
                 board[i][j] = new Pawn(color, j, i);
             }
         }
+    }
 
-
+    /**
+     * Switch turn between players
+     */
+    public void switchTurn() {
+        turn = turn.equals("white") ? "black" : "white";
     }
 
     /**
@@ -97,20 +103,27 @@ public class Board {
      */
     public JSONObject botMove() {
 
-        for (Piece[] row: board) {
-            for (Piece piece: row) {
+        for (Piece[] row : board) {
+            for (Piece piece : row) {
                 if (piece != null && piece.getColor().equals("black")) {
-                    List<Position> movable = piece.moves(this);
+                    List<Move> possibleMoves = piece.moves(this); // assuming moves() now returns Move objects
 
-                    for (Position pos: movable) {
-                        if (!checking(pos, piece)) {
-                            JSONObject move = new JSONObject();
-                            move.put("fromBot", String.valueOf((char) (piece.getPosition().getX() + 97)) + (8 - piece.getPosition().getY()));
-                            move.put("toBot", String.valueOf((char) (pos.getX() + 97)) + (8 - pos.getY()));
-                            move.put("piece", converter(piece).toUpperCase());
-                            setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
-                            setBoard(pos.getY(), pos.getX(), piece);
-                            return move;
+                    for (Move move : possibleMoves) {
+                        if (!isMoveSafe(move)) { // renamed from checking()
+                            JSONObject jsonMove = new JSONObject();
+                            Position from = move.getFrom();
+                            Position to = move.getTo();
+
+                            jsonMove.put("fromBot", String.valueOf((char) (from.getX() + 97)) + (8 - from.getY()));
+                            jsonMove.put("toBot", String.valueOf((char) (to.getX() + 97)) + (8 - to.getY()));
+                            jsonMove.put("piece", converter(piece).toUpperCase());
+
+                            // Execute the move on the board
+                            setBoard(from.getY(), from.getX(), null);
+                            setBoard(to.getY(), to.getX(), piece);
+                            piece.changePosition(to.getX(), to.getY()); // update piece position
+
+                            return jsonMove;
                         }
                     }
                 }
@@ -120,45 +133,51 @@ public class Board {
         return null;
     }
 
-    /**
-     * check if after the move is played you are in check
-     * @param position - position to move to
-     * @param piece - piece to move
-     * @return - either in check or not
-     */
-    public boolean checking(Position position, Piece piece) {
-        Piece pieceToPut = null;
-        if (board[position.getY()][position.getX()] != null) {
-            pieceToPut = board[position.getY()][position.getX()];
-        }
-        Position old = piece.getPosition();
-        setBoard(position.getY(), position.getX(), piece);
-        setBoard(old.getY(), old.getX(), null);
 
-        boolean check = inCheck(piece.getColor());
+    // -------------------------------
+    // Check if moving a piece would put the king in check
+    // -------------------------------
+    public boolean isMoveSafe(Move move) {
+        Piece movingPiece = move.getMovedPiece();
+        Position from = movingPiece.getPosition();
+        Position to = move.getTo();
+        Piece capturedPiece = board[to.getY()][to.getX()];
 
-        setBoard(old.getY(), old.getX(), piece);
-        setBoard(position.getY(), position.getX(), pieceToPut);
+        // Execute move temporarily
+        board[to.getY()][to.getX()] = movingPiece;
+        board[from.getY()][from.getX()] = null;
+        movingPiece.changePosition(to.getX(), to.getY());
 
-        return check;
+        boolean check = isInCheck(movingPiece.getColor());
+
+        // Undo move
+        board[from.getY()][from.getX()] = movingPiece;
+        board[to.getY()][to.getX()] = capturedPiece;
+        movingPiece.changePosition(from.getX(), from.getY());
+
+        return !check;
     }
 
-    /**
-     * checks if in check
-     * @return - either in check or not
-     */
-    private boolean inCheck(String color) {
+    // -------------------------------
+    // Check if a color is in check
+    // -------------------------------
+    public boolean isInCheck(String color) {
+        King king = Arrays.stream(board)
+                .flatMap(Arrays::stream)
+                .filter(piece -> piece instanceof King && piece.getColor().equals(color))
+                .map(piece -> (King) piece)
+                .findFirst()
+                .orElseThrow(() -> new IllegalStateException(color + " king not found"));
 
-        King king = Arrays.stream(board).flatMap(Arrays::stream).filter(piece -> piece instanceof King && piece.getColor().equals(color))
-                .findFirst().map(piece -> (King) piece).orElse(new King(color, 0, 0));
-
-        for (Piece[] row: board) {
-            for (Piece piece: row) {
+        for (Piece[] row : board) {
+            for (Piece piece : row) {
                 if (piece != null && !piece.getColor().equals(color)) {
-                    List<Position> movable = piece.moves(this);
+                    List<Move> moves = piece.moves(this); // use Move objects
 
-                    if (movable.stream().anyMatch(position -> position.equals(king.getPosition()))) {
-                        return true;
+                    for (Move move : moves) {
+                        if (move.getTo().equals(king.getPosition())) {
+                            return true;
+                        }
                     }
                 }
             }
@@ -166,28 +185,24 @@ public class Board {
         return false;
     }
 
-    /**
-     * checks whether it is checkmate
-     * @param color - color
-     * @return - mate or not
-     */
-    public boolean checkMate(String color) {
-
-        for (Piece[] row: board) {
-            for (Piece piece: row) {
+    // -------------------------------
+    // Check for checkmate
+    // -------------------------------
+    public boolean isCheckMate(String color) {
+        for (Piece[] row : board) {
+            for (Piece piece : row) {
                 if (piece != null && piece.getColor().equals(color)) {
-                    List<Position> allMoves = piece.moves(this);
+                    List<Move> moves = piece.moves(this);
 
-                    for (Position move: allMoves) {
-                        if (!checking(move, piece)) {
-                            return false;
+                    for (Move move : moves) {
+                        if (isMoveSafe(move)) {
+                            return false; // at least one move is safe
                         }
                     }
                 }
             }
         }
-
-        return inCheck(color);
+        return isInCheck(color);
     }
 
     /**
