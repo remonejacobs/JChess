@@ -24,144 +24,64 @@ public class Player {
     }
 
     /**
-     * find the value of the pieces on the board
-     *
-     * @return - total value
+     * find the total value of the player's pieces
      */
     public int boardValue() {
-        int sumValue = 0;
-        for (Piece piece : pieces) {
-            sumValue += piece.getValue();
-        }
-        return sumValue;
+        return pieces.stream().mapToInt(Piece::getValue).sum();
     }
 
     /**
-     * play the move
-     * @param move - move to play
+     * attempt to play a move
+     * @param moveStr - move in algebraic notation (e.g., "e2e4" or "Nf3")
      */
-    public JSONObject validMove(String move) throws Exception {
-        boolean valid = false;
-        if (move.contains("x")) {
-            if (Character.isUpperCase(move.toCharArray()[0])) {
-                move = move.replace("x", "");
-            } else {
-                move = String.valueOf(move.toCharArray()[2]) + move.toCharArray()[3];
-                System.out.println(move);
-            }
-        }
-        switch (move.toCharArray()[0]) {
-            case 'K':
-                for (Piece piece : pieces) {
-                    if (piece instanceof King) {
-                        if (replacePieces(piece, move)) {
-                            valid = true;
-                            break;
-                        }
+    public JSONObject validMove(String moveStr) throws Exception {
+        Move move = parseMove(moveStr);
 
-                    }
-                }
-                break;
-            case 'N':
-                for (Piece piece : pieces) {
-                    if (piece instanceof Knight) {
-                        if (replacePieces(piece, move)) {
-                            valid = true;
-                            break;
-                        }
-                    }
-                }
-                break;
-            case 'Q':
-                for (Piece piece : pieces) {
-                    if (piece instanceof Queen) {
-                        if (replacePieces(piece, move)) {
-                            valid = true;
-                            break;
-                        }
-                    }
-                }
-                break;
-            case 'R':
-                for (Piece piece : pieces) {
-                    if (piece instanceof Rook) {
-                        if (replacePieces(piece, move)) {
-                            valid = true;
-                            break;
-                        }
-                    }
-                }
-                break;
-            case 'B':
-                for (Piece piece : pieces) {
-                    if (piece instanceof Bishop) {
-                        if (replacePieces(piece, move)) {
-                            valid = true;
-                            break;
-                        }
-                    }
-                }
-                break;
-            default:
-                for (Piece piece : pieces) {
-                    if (piece instanceof Pawn) {
-                        if (replacePieces(piece, move)) {
-                            valid = true;
-                            break;
-                        }
-                    }
-                }
-        }
-        JSONObject botMoves = new JSONObject();
-        if (valid) {
-            System.out.println(checkmate);
-            if (!checkmate) {
-                botMoves = board.botMove();
-                boolean mate = board.checkMate("white");
-            }
-            return createResponse("valid", checkmate, botMoves);
-
-        } else {
-            System.out.println("INVALID MOVE!");
+        if (move == null) {
             return createResponse("invalid", false, new JSONObject());
         }
+
+        Piece movingPiece = move.getMovedPiece();
+
+        // check if the move is valid
+        if (!movingPiece.moves(board).contains(move)) {
+            return createResponse("invalid", false, new JSONObject());
+        }
+
+        // check if the move puts the player in check
+        if (!board.isMoveSafe(move)) {
+            return createResponse("invalid", false, new JSONObject());
+        }
+
+        // execute the move
+        board.makeMove(move);
+
+        // check for checkmate
+        checkmate = board.isCheckMate(movingPiece.getColor().equals("white") ? "black" : "white");
+
+        // bot move if not checkmate
+        JSONObject botMoves = new JSONObject();
+        if (!checkmate) {
+            botMoves = board.botMove();
+        }
+
+        return createResponse("valid", checkmate, botMoves);
     }
 
     /**
-     * move the piece based on input
-     * @param piece - piece to move
-     * @param move - input
-     * @return - whether move was possible
+     * parses a move string into a Move object
      */
-    private boolean replacePieces(Piece piece, String move) throws Exception {
-        List<Position> allMoves = piece.moves(board);
-        int xVal;
-        int yVal;
-        if (piece instanceof Pawn) {
-            xVal = (int) move.toCharArray()[0] - 97;
-            yVal = 8 - Integer.parseInt(String.valueOf(move.toCharArray()[1]));
-        } else {
-            xVal = ((int) move.toCharArray()[1] - 97);
-            yVal = 8 - Integer.parseInt(String.valueOf(move.toCharArray()[2]));
-        }
+    private Move parseMove(String moveStr) {
+        moveStr = moveStr.replace("x", ""); // ignore capture notation
 
-        if (allMoves.stream().anyMatch(pos -> pos.getX() == xVal && pos.getY() == yVal)) {
-
-            if (board.checking(new Position(xVal, yVal), piece)) {
-                return false;
+        for (Piece piece : pieces) {
+            if (piece.matchesMoveNotation(moveStr, board)) {
+                Position from = piece.getPosition();
+                Position to = piece.notationToPosition(moveStr);
+                return new Move(from, to, piece, board.getPieceAt(to));
             }
-            // move piece accordingly
-            board.setBoard(piece.getPosition().getY(), piece.getPosition().getX(), null);
-            board.setBoard(yVal, xVal, piece);
-
-            if (board.checkMate("black")) {
-                checkmate = true;
-                System.out.println("CHECKMATE! YOU WON!!\n");
-//                System.exit(0);
-            }
-            return true;
         }
-        return false;
+        return null;
     }
 
     private JSONObject createResponse(String move, boolean checkmate, JSONObject botMoves) {

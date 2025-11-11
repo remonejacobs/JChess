@@ -66,6 +66,14 @@ public class Board {
         return board;
     }
 
+    public Piece getPieceAt(Position pos) {
+        return board[pos.getY()][pos.getX()];
+    }
+
+    public void makeMove(Move move) {
+        setBoard(move.getTo().getY(), move.getTo().getX(), move.getMovedPiece());
+    }
+
     /**
      * setter for the board
      * @param y - column
