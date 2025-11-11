@@ -84,4 +84,49 @@ public abstract class Piece {
 
         return rangeList;
     }
+
+    /**
+     * Generates all valid sliding moves (used by Rook, Bishop, Queen).
+     * @param board The current board
+     * @param directions An array of directions, e.g. { {1,1}, {-1,-1}, {1,-1}, {-1,1} }
+     * @return A list of all possible moves in those directions
+     */
+    protected List<Move> generateSlidingMoves(Board board, int[][] directions) {
+        List<Move> allMoves = new ArrayList<>();
+        Piece[][] squares = board.getBoard();
+
+        int startX = position.getX();
+        int startY = position.getY();
+
+        for (int[] dir : directions) {
+            int dx = dir[0];
+            int dy = dir[1];
+
+            for (int step = 1; step < 8; step++) {
+                int newX = startX + dx * step;
+                int newY = startY + dy * step;
+
+                if (!isInBounds(newX, newY)) break;
+
+                Piece target = squares[newY][newX];
+
+                if (target == null) {
+                    // Empty square — add move
+                    allMoves.add(new Move(position, new Position(newX, newY), this, null));
+                } else {
+                    // Occupied square — capture only if opposite color
+                    if (!target.getColor().equals(this.color)) {
+                        allMoves.add(new Move(position, target.getPosition(), this, target));
+                    }
+                    break; // can't move past another piece
+                }
+            }
+        }
+
+        return allMoves;
+    }
+
+    protected boolean isInBounds(int x, int y) {
+        return x >= 0 && x < 8 && y >= 0 && y < 8;
+    }
 }

@@ -1,11 +1,10 @@
 package com.chess.pieces;
 
 import com.chess.board.Board;
-
-import java.util.ArrayList;
+import com.chess.board.Move;
 import java.util.List;
 
-public class Bishop extends Piece{
+public class Bishop extends Piece {
 
     public Bishop(String color, int x, int y) {
         super(color, x, y);
@@ -17,78 +16,16 @@ public class Bishop extends Piece{
     }
 
     @Override
-    public List<Position> moves(Board tempBoard) {
-        Piece[][] board = tempBoard.getBoard();
-        List<Position> allMoves = new ArrayList<>();
+    public List<Move> moves(Board tempBoard) {
 
-        // we run for loops to test everything diagonally
-        for (int i = 1; i < 8; i++) {
-            try {
-                if (board[getPosition().getY() + i][getPosition().getX() + i] != null) {
-                    Piece piece = board[getPosition().getY() + i][getPosition().getX() + i];
-
-                    if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
-                    }
-                    break;
-                } else {
-                    allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() + i));
-                }
-            } catch (Exception ignored) {
-                break;
-            }
-        }
-
-        for (int i = 1; i < 8; i++) {
-            try {
-                if (board[getPosition().getY() - i][getPosition().getX() - i] != null) {
-                    Piece piece = board[getPosition().getY() - i][getPosition().getX() - i];
-
-                    if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
-                    }
-                    break;
-                } else {
-                    allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() - i));
-                }
-            } catch (Exception ignored) {
-                break;
-            }
-        }
-
-        for (int i = 1; i < 8; i++) {
-            try {
-                if (board[getPosition().getY() + i][getPosition().getX() - i] != null) {
-                    Piece piece = board[getPosition().getY() + i][getPosition().getX() - i];
-
-                    if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
-                    }
-                    break;
-                } else {
-                    allMoves.add(new Position(getPosition().getX() - i, getPosition().getY() + i));
-                }
-            } catch (Exception ignored) {
-                break;
-            }
-        }
-
-        for (int i = 1; i < 8; i++) {
-            try {
-                if (board[getPosition().getY() - i][getPosition().getX() + i] != null) {
-                    Piece piece = board[getPosition().getY() - i][getPosition().getX() + i];
-
-                    if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
-                    }
-                    break;
-                } else {
-                    allMoves.add(new Position(getPosition().getX() + i, getPosition().getY() - i));
-                }
-            } catch (Exception ignored) {
-                break;
-            }
-        }
-        return allMoves;
+        // Directions: diagonals (dx, dy)
+        int[][] directions = {
+                {1, 1},   // down-right
+                {-1, -1}, // up-left
+                {-1, 1},  // down-left
+                {1, -1}   // up-right
+        };
+        return generateSlidingMoves(tempBoard, directions);
     }
 }
+
