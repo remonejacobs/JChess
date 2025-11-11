@@ -1,6 +1,7 @@
 package com.chess.pieces;
 
 import com.chess.board.Board;
+import com.chess.board.Move;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,7 +55,7 @@ public abstract class Piece {
      * find the playable moves of the pieces
      * @return - list of available moves
      */
-    public abstract List<Position> moves(Board board);
+    public abstract List<Move> moves(Board board);
 
     /**
      * Returns a range from one number to the next.
