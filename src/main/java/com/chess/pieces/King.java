@@ -1,11 +1,10 @@
 package com.chess.pieces;
 
 import com.chess.board.Board;
-
-import java.util.ArrayList;
+import com.chess.board.Move;
 import java.util.List;
 
-public class King extends Piece{
+public class King extends Piece {
 
     public King(String color, int x, int y) {
         super(color, x, y);
@@ -17,28 +16,19 @@ public class King extends Piece{
     }
 
     @Override
-    public List<Position> moves(Board tempBoard) {
-        Piece[][] board = tempBoard.getBoard();
-        List<Position> allMoves = new ArrayList<>();
+    public List<Move> moves(Board board) {
+        // Directions: all 8 surrounding squares
+        int[][] directions = {
+                {1, 0},   // right
+                {-1, 0},  // left
+                {0, 1},   // down
+                {0, -1},  // up
+                {1, 1},   // down-right
+                {1, -1},  // up-right
+                {-1, 1},  // down-left
+                {-1, -1}  // up-left
+        };
 
-        // testing all possible king moves
-        // will cover every move
-        int[][] adds = {{1, 1}, {-1, -1}, {1, -1}, {-1, 1}, {0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-
-        for (int[] row: adds) {
-            try {
-                if (board[getPosition().getY() + row[0]][getPosition().getX() + row[1]] != null) {
-                    Piece piece = board[getPosition().getY() + row[0]][getPosition().getX() + row[1]];
-
-                    if (!piece.getColor().equals(getColor())) {
-                        allMoves.add(piece.getPosition());
-                    }
-                } else {
-                    allMoves.add(new Position(getPosition().getX() + row[1], getPosition().getY() + row[0]));
-                }
-            } catch (Exception ignored) {
-            }
-        }
-        return allMoves;
+        return generateLeapingMoves(board, directions);
     }
 }

@@ -129,4 +129,35 @@ public abstract class Piece {
     protected boolean isInBounds(int x, int y) {
         return x >= 0 && x < 8 && y >= 0 && y < 8;
     }
+
+    /**
+     * Generates all valid sliding moves (used by King).
+     * @param board The current board
+     * @param directions An array of directions, e.g. { {1,1}, {-1,-1}, {1,-1}, {-1,1} }
+     * @return A list of all possible moves in those directions
+     */
+    protected List<Move> generateLeapingMoves(Board board, int[][] directions) {
+        List<Move> allMoves = new ArrayList<>();
+        Piece[][] squares = board.getBoard();
+
+        int startX = getPosition().getX();
+        int startY = getPosition().getY();
+
+        for (int[] dir : directions) {
+            int newX = startX + dir[0];
+            int newY = startY + dir[1];
+
+            if (!isInBounds(newX, newY)) continue;
+
+            Piece target = squares[newY][newX];
+
+            if (target == null) {
+                allMoves.add(new Move(getPosition(), new Position(newX, newY), this, null));
+            } else if (!target.getColor().equals(this.getColor())) {
+                allMoves.add(new Move(getPosition(), target.getPosition(), this, target));
+            }
+        }
+
+        return allMoves;
+    }
 }
