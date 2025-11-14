@@ -119,13 +119,17 @@ public class Board {
         for (Piece[] row : board) {
             for (Piece piece : row) {
                 if (piece != null && piece.getColor().equals("black")) {
-                    List<Move> possibleMoves = piece.moves(this); // assuming moves() now returns Move objects
+                    List<Move> possibleMoves = piece.moves(this);
+                    System.out.println(possibleMoves);
 
                     for (Move move : possibleMoves) {
-                        if (!isMoveSafe(move)) { // renamed from checking()
+                        if (isMoveSafe(move)) { // renamed from checking()
                             JSONObject jsonMove = new JSONObject();
                             Position from = move.getFrom();
                             Position to = move.getTo();
+                            System.out.println("assefd");
+                            System.out.println(from);
+                            System.out.println(to);
 
                             jsonMove.put("fromBot", String.valueOf((char) (from.getX() + 97)) + (8 - from.getY()));
                             jsonMove.put("toBot", String.valueOf((char) (to.getX() + 97)) + (8 - to.getY()));
@@ -134,7 +138,7 @@ public class Board {
                             // Execute the move on the board
                             setBoard(from.getY(), from.getX(), null);
                             setBoard(to.getY(), to.getX(), piece);
-                            piece.changePosition(to.getX(), to.getY()); // update piece position
+                            piece.changePosition(to.getY(), to.getX()); // update piece position
 
                             return jsonMove;
                         }
