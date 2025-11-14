@@ -32,8 +32,6 @@ public class MainServer {
             String from = json.getString("from");
             String to = json.getString("to");
             JSONObject moveSet = player.validMove(from, to);
-            System.out.println(from);
-            System.out.println(to);
             System.out.println(moveSet);
             ctx.json(moveSet.toMap());
         });

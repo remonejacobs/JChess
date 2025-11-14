@@ -11,6 +11,7 @@ public class Board {
 
     private final Piece[][] board = new Piece[8][8];
     private String turn = "white";
+    private List<Piece> black;
 
     public Board() {
         createBoard();
@@ -49,6 +50,9 @@ public class Board {
                 board[i][j] = new Pawn(color, j, i);
             }
         }
+
+        black = getBlackPieces();
+        black.forEach(piece -> System.out.println(piece.getPosition() + " " + piece));
     }
 
     /**
@@ -56,6 +60,26 @@ public class Board {
      */
     public void switchTurn() {
         turn = turn.equals("white") ? "black" : "white";
+    }
+
+    /**
+     * Get all the black pieces (black player's hand).
+     */
+    private List<Piece> getBlackPieces() {
+        List<Piece> blackPieces = new ArrayList<>(); // List to hold black pieces
+
+        // Loop over the entire board to find black pieces
+        for (int i = 0; i < 8; i++) { // Loop through rows
+            for (int j = 0; j < 8; j++) { // Loop through columns
+                Piece piece = board[i][j]; // Get the piece at position (i, j)
+
+                if (piece != null && piece.getColor().equals("black")) {
+                    blackPieces.add(piece); // Add black piece to the list
+                }
+            }
+        }
+
+        return blackPieces;
     }
 
     /**
@@ -115,34 +139,30 @@ public class Board {
      * the bot makes a move
      */
     public JSONObject botMove() {
+        black.forEach(piece -> System.out.println(piece.getPosition() + " " + piece));
 
-        for (Piece[] row : board) {
-            for (Piece piece : row) {
-                if (piece != null && piece.getColor().equals("black")) {
-                    List<Move> possibleMoves = piece.moves(this);
-                    System.out.println(possibleMoves);
+        for (Piece piece : black) {
+            System.out.println(piece.getPosition());
+            List<Move> possibleMoves = piece.moves(this);
+            System.out.println(possibleMoves);
 
-                    for (Move move : possibleMoves) {
-                        if (isMoveSafe(move)) { // renamed from checking()
-                            JSONObject jsonMove = new JSONObject();
-                            Position from = move.getFrom();
-                            Position to = move.getTo();
-                            System.out.println("assefd");
-                            System.out.println(from);
-                            System.out.println(to);
+            for (Move move : possibleMoves) {
+                if (isMoveSafe(move)) { // renamed from checking()
+                    JSONObject jsonMove = new JSONObject();
+                    Position from = move.getFrom();
+                    Position to = move.getTo();
+                    System.out.println("assefd");
+                    System.out.println(from);
+                    System.out.println(to);
 
-                            jsonMove.put("fromBot", String.valueOf((char) (from.getX() + 97)) + (8 - from.getY()));
-                            jsonMove.put("toBot", String.valueOf((char) (to.getX() + 97)) + (8 - to.getY()));
-                            jsonMove.put("piece", converter(piece).toUpperCase());
+                    jsonMove.put("fromBot", String.valueOf((char) (from.getX() + 97)) + (8 - from.getY()));
+                    jsonMove.put("toBot", String.valueOf((char) (to.getX() + 97)) + (8 - to.getY()));
+                    jsonMove.put("piece", converter(piece).toUpperCase());
 
-                            // Execute the move on the board
-                            setBoard(from.getY(), from.getX(), null);
-                            setBoard(to.getY(), to.getX(), piece);
-                            piece.changePosition(to.getY(), to.getX()); // update piece position
+                    // Execute the move on the board
+                    makeMove(move);
 
-                            return jsonMove;
-                        }
-                    }
+                    return jsonMove;
                 }
             }
         }
@@ -163,14 +183,12 @@ public class Board {
         // Execute move temporarily
         board[to.getY()][to.getX()] = movingPiece;
         board[from.getY()][from.getX()] = null;
-        movingPiece.changePosition(to.getX(), to.getY());
 
         boolean check = isInCheck(movingPiece.getColor());
 
         // Undo move
         board[from.getY()][from.getX()] = movingPiece;
         board[to.getY()][to.getX()] = capturedPiece;
-        movingPiece.changePosition(from.getX(), from.getY());
 
         return !check;
     }

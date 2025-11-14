@@ -150,9 +150,9 @@ public abstract class Piece {
             Piece target = squares[newY][newX];
 
             if (target == null) {
-                allMoves.add(new Move(getPosition(), new Position(newX, newY), this, null));
+                allMoves.add(new Move(position, new Position(newX, newY), this, null));
             } else if (!target.getColor().equals(this.getColor())) {
-                allMoves.add(new Move(getPosition(), target.getPosition(), this, target));
+                allMoves.add(new Move(position, target.getPosition(), this, target));
             }
         }
 
